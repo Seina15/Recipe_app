@@ -1,0 +1,38 @@
+services:
+  db:
+    build:
+      context: ../
+      dockerfile: docker/db/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: recipe_app
+      TZ: Asia/Tokyo
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - fuelphp-network
+
+  app:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    container_name: fuelphp-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ../:/var/www/html/my_fuel_project 
+    environment:
+      FUEL_ENV: development
+    depends_on:
+      - db
+    networks:
+      - fuelphp-network
+
+networks:
+  fuelphp-network:
+    driver: bridge
+
+volumes:
+  mysql-data: {}
