@@ -1,0 +1,20 @@
+/* お買い物リスト */
+.shopping-list {
+    background-color: rgb(255, 244, 230);
+    padding: 24px 20px;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.shopping-list li {
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.shopping-list input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+}

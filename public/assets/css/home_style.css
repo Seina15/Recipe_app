@@ -1,0 +1,16 @@
+.main-sections {
+    display: flex;
+    gap: 48px;
+}
+.left-section {
+    flex: 4 1 0%;
+    min-width: 0;
+}
+.right-section {
+    flex: 3 1 0%;
+    min-width: 0;
+}
+.section-div {
+    border: 2px solid #ccc;
+    margin: 20px 0;
+}

@@ -1,63 +1,31 @@
-# インターン課題環境構築手順
 
-## Dockerの基本知識
-Dockerの基本的な概念については、以下のリンクを参考にしてください：
-- [Docker入門（1）](https://qiita.com/Sicut_study/items/4f301d000ecee98e78c9)
-- [Docker入門（2）](https://qiita.com/takusan64/items/4d622ce1858c426719c7)
+# クックリスト
 
-## セットアップ手順
+あなたやご家族の好み、人数、その日の天気に合わせて最適なレシピを提案するアプリです。
 
-1. **リポジトリをクローン**
-   ```bash
-   git clone <リポジトリURL>
-   ```
+- 選択したレシピの材料を自動でお買い物リストに追加！
+- 手動でリストにアイテム追加も可能なので、他の買い物もアプリひとつで完結！
 
-2. **dockerディレクトリに移動**
-   ```bash
-   cd docker
-   ```
+---
 
-3. **データベース名の設定**
-   `docker-compose.yml` 内の `db` サービスにある `MYSQL_DATABASE` の値を、各自任意のデータベース名に設定してください。
-   
-   例:
-   ```yaml
-   environment:
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: <your_database_name>  # 任意のデータベース名を指定
-   ```
+## 環境情報
 
-4. **Dockerイメージのビルド**
-   ```bash
-   docker-compose build
-   ```
+### PHP
 
-5. **コンテナの起動**
-   ```bash
-   docker-compose up -d
-   ```
-6. **ブラウザからlocalhostにアクセス**
-
-## PHP周りのバージョン
 - **PHP**: 7.3
 - **FuelPHP**: 1.8
 
-## ログについて
-- **アクセスログ**: Dockerのコンテナのログ
-- **FuelPHPのエラーログ**: /var/www/html/intern_kadai/fuel/app/logs/
-  - 年月日ごとにログが管理されている
-  - tail -f {見たいログファイル}でログを出力
+### ログ
 
-## MySQLコンテナ設定
-このプロジェクトには、MySQLを使用するDBコンテナが含まれています。設定は以下の通りです。
+- **アクセスログ**: Dockerコンテナのログ
+- **FuelPHPエラーログ**: `/var/www/html/intern_kadai/fuel/app/logs/`
+  - 
+  - `tail -f {ログファイル名}` でリアルタイム出力可能
 
-- **MySQLバージョン**: 8.0
-- **ポート**: `3306`
-- **環境変数**:
-  - `MYSQL_ROOT_PASSWORD`: root
-  - `MYSQL_DATABASE`: 各自設定したデータベース名
+
 
 ### アクセス情報
+
 - **ホスト**: `localhost`
 - **ポート**: `3306`
 - **ユーザー名**: `root`
