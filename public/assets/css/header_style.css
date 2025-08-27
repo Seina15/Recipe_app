@@ -22,3 +22,7 @@ header {
     align-items: center;
     justify-content: center;
 }
+
+.fa-solid {
+    color: rgb(77, 58, 55);
+}
