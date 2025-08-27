@@ -5,8 +5,7 @@ class Controller_Home extends Controller
     # ホームページ
     public function action_index()
     {
-        $items = ['玉ねぎ', 'にんじん', 'じゃがいも', '牛肉'];
-        return Response::forge(View::forge('ui/index', ['items' => $items]));
+        return Response::forge(View::forge('ui/index'));
     }
 
     # プロフィールページ

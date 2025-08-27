@@ -5,12 +5,18 @@
   gap: 48px;
 }
 
-.left-section,
-.right-section {
-  flex: 1 1 0%;
+.left-section {
+  flex: 3;
   min-width: 0;
   padding-top: 40px;
 }
+
+.right-section {
+  flex: 2;
+  min-width: 0;
+  padding-top: 40px;
+}
+
 
 .section-header {
   display: flex;
@@ -36,4 +42,28 @@
 
 .fa-solid {
   font-size: 24px;
+}
+
+
+/* お買い物リスト */
+.shopping-list {
+    background-color: rgb(255, 244, 230);
+    padding: 24px 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.shopping-list li {
+    margin-bottom: 20px;
+    font-size: 2.0em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.shopping-list input[type="checkbox"] {
+    width: 34px;
+    height: 34px;
 }

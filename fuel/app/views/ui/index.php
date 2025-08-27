@@ -13,16 +13,16 @@
 
     <section class="main-sections">
 
-        <!-- 左画面（レコメンド） -->
+        <!-- Left Section -->
         <div class="left-section">
             <div class="section-header">
                 <h1>Recommend</h1>
                 
-                <button class="icon-btn" aria-label="filter-recommend" >
+                <button class="icon-btn" id="filter-recommend" >
                     <i class="fa-solid fa-filter"></i>
                 </button>
 
-                <button class="icon-btn" aria-label="filter-recommend" >
+                <button class="icon-btn" id="filter-search" >
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 
@@ -32,23 +32,35 @@
             <hr class="section-div"/>
         </div>
 
-        <!-- 右画面（ショッピングリスト） -->
+        <!--Right Section-->
         <div class="right-section">
             <div class="section-header" style="display: flex; align-items: center; gap: 20px;">
                 <h1>Shopping List</h1>
-                
-                <button class="icon-btn" aria-label="clear-list" style="background-color: #da8660;">
+
+                <button class="icon-btn" id="clear-btn" data-bind="click: removeItem" style="background-color:#da8660;">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
 
-                <button class="icon-btn" aria-label="add-item" style="background-color: #4CAF50;">
+                <button class="icon-btn" id="add-btn" data-bind="click: appendItem" style="background-color:#4CAF50;">
                     <i class="fa-solid fa-circle-plus"></i>
                 </button>
             </div>
 
             <hr class="section-div">
-            <?php echo View::forge('parts/right_section', ['items' => $items]); ?>
+
+            <!-- Shopping-List -->
+            <ul class="shopping-list" data-bind="foreach: items">
+            <li>
+                <input type="checkbox" data-bind="checked: checked, attr: { id: 'item-' + $index() }">
+                <label data-bind="text: name, attr: { for: 'item-' + $index() }"></label>
+            </li>
+            </ul>
+
         </div>
     </section>
+
+
+    <script src="knockout-3.2.0.js"></script>
+    <script src="/assets/js/shopping-list.js"></script>
 </body>
 </html>
