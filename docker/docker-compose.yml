@@ -22,15 +22,15 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ../:/var/www/html/my_fuel_project 
+      - ../:/var/www/html/my_fuel_project
+    env_file:
+      - ../.env 
     environment:
       FUEL_ENV: development
     depends_on:
       - db
     networks:
       - fuelphp-network
-    env_file:
-      - ../.env
 
 networks:
   fuelphp-network:
