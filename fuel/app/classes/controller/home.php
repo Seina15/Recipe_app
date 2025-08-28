@@ -17,7 +17,7 @@ class Controller_Home extends Controller
     # 404ページ
     public function action_404()
 	{
-		return Response::forge(Presenter::forge('welcome/404'), 404);
+		return Response::forge('404 Not Found', 404);
 	}
     
 
