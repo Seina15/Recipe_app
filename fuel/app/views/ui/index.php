@@ -14,7 +14,7 @@
     <section class="main-sections">
 
         <!-- Left Section -->
-        <div class="left-section">
+        <div class="left-section" id ="left-section">
             <div class="section-header">
                 <h1>Recommend</h1>
                 
@@ -25,11 +25,11 @@
                 <button class="icon-btn" id="filter-search" >
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
+
                 
             </div>
-
-
             <hr class="section-div"/>
+            <?php echo View::forge('parts/left_section'); ?>
         </div>
 
         <!--Right Section-->
@@ -62,5 +62,6 @@
 
     <script src="knockout-3.2.0.js"></script>
     <script src="/assets/js/shopping-list.js"></script>
+    <script src="/assets/js/left-section.js"></script>
 </body>
 </html>

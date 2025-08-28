@@ -67,3 +67,27 @@
     width: 34px;
     height: 34px;
 }
+
+
+/* メニューカードの設定 */
+/* 枠 */
+.menus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+/* 画像 */
+.menu-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* タイトル */
+.menu-card h3  {
+  margin: 8px 0 6px;
+  font-size: 14px;
+  line-height: 1.3;
+}
