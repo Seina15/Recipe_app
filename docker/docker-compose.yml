@@ -29,6 +29,8 @@ services:
       - db
     networks:
       - fuelphp-network
+    env_file:
+      - ../.env
 
 networks:
   fuelphp-network:
