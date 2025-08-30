@@ -36,7 +36,7 @@
 
 
       // 材料の重複判定
-      var unique_item = Object.create(null);
+      var uniqueItem = Object.create(null);
       selectedMenus.forEach(function(menu) {
 
         var materials = menu.materials || [];
@@ -49,7 +49,7 @@
           text = text.replace(/\s+/g, " ");
 
           if (text.length > 0) {
-            unique_item[text] = material;
+            uniqueItem[text] = material;
           }
        });
 
@@ -70,10 +70,10 @@
         };
       }
 
-      var keys = Object.keys(unique_item);
+      var keys = Object.keys(uniqueItem);
       for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
-        var originalText = unique_item[key];
+        var originalText = uniqueItem[key];
         var item = make(originalText);
         window.rightVM.items.push(item);
       }
@@ -87,7 +87,7 @@
     });
 
     // もっと表示できるかの判定をする
-    self.showMore = ko.pureComputed(function () {
+    self.hasMore = ko.pureComputed(function () {
       return self.visibleCount() < self.allRecipes().length;
     });
 
@@ -119,6 +119,12 @@
 
 
             var json;
+            try {
+              json = JSON.parse(text);
+            } catch (e) {
+              throw new Error('non-json: ' + text.slice(0, 200));
+            }
+
             var okFlag = (json && json.success === true);
 
             // エラーメッセージの作成
@@ -138,6 +144,7 @@
             }
             // 正常に動作している場合
             return json;
+            
           });
         })
 
