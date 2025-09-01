@@ -1,23 +1,13 @@
 <?php
-/**
- * The development database settings. These get merged with the global settings.
- */
-
-return array(
-	'default' => array(
-		'type'        => 'mysqli',
-		'connection'  => array(
-			'hostname'   => 'db',
-			'database'   => 'fuelphp',
-			'username'   => 'root',
-			'password'   => 'root',
-			'persistent' => false,
-		),
-		'identifier'   => '`',
-		'table_prefix' => '',
-		'charset'      => 'utf8',
-		'collation'    => 'utf8_unicode_ci',
-		'enable_cache' => true,
-		'profiling'    => false,
-	),
-);
+return [
+  'default' => [
+    'type'       => 'pdo',
+    'connection' => [
+      'dsn'      => 'mysql:host=db;port=3306;dbname=recipe_app;charset=utf8mb4',
+      'username' => 'root',
+      'password' => 'root',
+    ],
+    'charset'   => 'utf8mb4',
+    'profiling' => true,
+  ],
+];
