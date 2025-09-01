@@ -1,12 +1,13 @@
 <?php
-
-return array(
-'connection' => [
-  'hostname' => '127.0.0.1',
-  'port'     => 3307,
-  'database' => 'recipe_app',
-  'username' => 'root',
-  'password' => 'root',
-],
-
-);
+return [
+  'default' => [
+    'type'       => 'pdo',
+    'connection' => [
+      'dsn'      => 'mysql:host=db;port=3306;dbname=recipe_app;charset=utf8mb4',
+      'username' => 'root',
+      'password' => 'root',
+    ],
+    'charset'   => 'utf8mb4',
+    'profiling' => true,
+  ],
+];
