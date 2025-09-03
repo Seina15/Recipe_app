@@ -21,8 +21,8 @@
 
             <!-- 調理時間 -->
             <div class="row">
-                <label for="time">調理時間の上限</label>
-                <select class="input-box" id="time" name="time">
+                <label for="cook_time">調理時間の上限</label>
+                <select class="input-box" id="cook_time" name="cook_time">
                 <option value="">選択してください…</option>
                 <option value="15">~ 15 分</option>
                 <option value="30">~ 30 分</option>
