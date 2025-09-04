@@ -5,7 +5,11 @@ class Controller_Home extends Controller
     # ホームページ
     public function action_index()
     {
-        return Response::forge(View::forge('ui/index'));
+        $user_id = 1; // 仮のユーザーID（後で変える）
+        // Viewの呼び出しとIDをわたす
+        return \Response::forge(\View::forge('ui/index', [
+            'user_id' => $user_id, 
+        ]));
     }
 
     # プロフィールページ

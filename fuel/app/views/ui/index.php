@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/assets/css/home_style.css">
     <title>ホームページ</title>
+    <script>
+        window.USER_ID = <?= (int)$user_id ?? 1 ?>;　// ユーザーIDをJavaScriptに渡す（テスト用！後で変える）
+    </script>
 
 </head>
 

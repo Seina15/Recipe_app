@@ -9,7 +9,7 @@
 
     const MoreDisplay = 12; 
     const DEFAULT_CATEGORY_ID = '';
-
+  
     // もっと見る処理
     self.onMenuToggle = function(menu) {
       if (!window.rightVM) return; 
@@ -101,14 +101,14 @@
    
 
     self.reloadRecipe = function () {
-
       self.error('');
       self.loading(true);
-      var url = '/index.php/api/recipe/ranking.json';
 
+      var userId = window.USER_ID || 1;
+      var url = '/index.php/api/recipe/ranking.json?userId=' + userId;
 
       if (DEFAULT_CATEGORY_ID) {
-        url += '?categoryId=' + encodeURIComponent(DEFAULT_CATEGORY_ID);
+        url += '&categoryId=' + encodeURIComponent(DEFAULT_CATEGORY_ID);
       }
 
 
