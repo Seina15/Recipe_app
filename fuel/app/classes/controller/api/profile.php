@@ -43,7 +43,7 @@ class Controller_Api_Profile extends Controller_Rest
                     $tmp = mb_convert_kana($tmp, "C", "UTF-8");
                     $tmp = str_replace("　", " ", $tmp);
 
-                    // 漢字対応
+                    // 漢字対応  by Copilot
                     $ngSynonyms = [
                         "鶏肉" => ["鶏肉", "チキン", "とり肉"],
                         "豚肉" => ["豚肉", "ポーク", "ぶた肉"],
@@ -52,7 +52,10 @@ class Controller_Api_Profile extends Controller_Rest
                         "乳製品" => ["乳製品", "牛乳", "チーズ", "ヨーグルト", "バター", "ミルク"],
                         "小麦" => ["小麦", "パン", "パスタ", "うどん", "ラーメン", "そうめん", "蕎麦"],
                         "魚介類" => ["魚介類", "魚", "エビ", "カニ", "イカ", "タコ", "貝"],
-                        "なす" => ["茄子"]
+                        "茄子" => ["茄子", "ナス"],
+                        "胡瓜" => ["胡瓜", "キュウリ"],
+                        "南瓜" => ["南瓜", "カボチャ"],
+                        "葱"   => ["葱", "ネギ"],
                     ];
                     foreach ($ngSynonyms as $kanji => $synonyms) {
                         foreach ($synonyms as $synonym) {

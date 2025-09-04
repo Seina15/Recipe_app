@@ -4,11 +4,18 @@
         <meta charset="utf-8">
         <title>Profile Setting</title>
         <link rel="stylesheet" href="/assets/css/profile_style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     </head>
 
     <body>
-        <h1 class="profile-title">Profile Setting</h1>
-        <hr/>
+
+        <header>
+            <h1 class="header-title">Profile Setting</h1>
+            <a id="home-icon" href="/home" title="ホーム" style="margin-left:20px;">
+               <i class="fa-solid fa-house-chimney"></i>
+            </a>
+        </header>
+
 
         <section class="section-profile">
             <form id="profile-form" class="profile-form" autocomplete="on">
