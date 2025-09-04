@@ -6,13 +6,15 @@
 }
 
 .section-profile {
-    padding: 20px;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 5%;
+    padding: 40px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 3%;
     background-color: #ddc495;
     border: 2px solid #7d582a;
     border-radius: 15px;
+    max-width: 900px;
+    width: 100%;
 }
 
 
