@@ -37,7 +37,31 @@ class Controller_Api_Profile extends Controller_Rest
             $avoid = null;
             if (isset($data["avoid"])) {
                 $tmp = trim((string)$data["avoid"]);
-                if ($tmp !== "") { 
+                if ($tmp !== "") {
+                    // 入力正規化（ひらがな・カタカナ）
+                    $tmp = mb_convert_kana($tmp, "cH", "UTF-8");
+                    $tmp = mb_convert_kana($tmp, "C", "UTF-8");
+                    $tmp = str_replace("　", " ", $tmp);
+
+                    // 漢字対応
+                    $ngSynonyms = [
+                        "鶏肉" => ["鶏肉", "チキン", "とり肉"],
+                        "豚肉" => ["豚肉", "ポーク", "ぶた肉"],
+                        "牛肉" => ["牛肉", "ビーフ", "ぎゅう肉"],
+                        "卵"   => ["卵", "たまご", "タマゴ"],
+                        "乳製品" => ["乳製品", "牛乳", "チーズ", "ヨーグルト", "バター", "ミルク"],
+                        "小麦" => ["小麦", "パン", "パスタ", "うどん", "ラーメン", "そうめん", "蕎麦"],
+                        "魚介類" => ["魚介類", "魚", "エビ", "カニ", "イカ", "タコ", "貝"],
+                        "なす" => ["茄子"]
+                    ];
+                    foreach ($ngSynonyms as $kanji => $synonyms) {
+                        foreach ($synonyms as $synonym) {
+                            if (strpos($tmp, $synonym) !== false) {
+                                $tmp = $kanji;
+                                break 2;
+                            }
+                        }
+                    }
                     $avoid = $tmp;
                 }
             }
