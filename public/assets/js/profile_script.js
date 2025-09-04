@@ -4,18 +4,18 @@ const status = document.getElementById('form-status');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  // 要素はIDで安全に取得
-  const avoidEl    = document.getElementById('avoid');
-  const cookEl     = document.getElementById('cook_time');
-  const budgetEl   = document.getElementById('budget');
-  const servingsEl = document.getElementById('servings');
 
-  // 送信データ（API側が time を期待しているなら key は time に）
+  const avoidElement    = document.getElementById('avoid');
+  const cookElement     = document.getElementById('cook_time');
+  const budgetElement   = document.getElementById('budget');
+  const servingsElement = document.getElementById('servings');
+
+
   const submitData = {
-    avoid:   (avoidEl?.value ?? '').trim(),
-    time:     cookEl?.value ? Number(cookEl.value) : null,   // ←APIに合わせて 'time'
-    budget:   budgetEl?.value ? Number(budgetEl.value) : null,
-    servings: servingsEl?.value ? Number(servingsEl.value) : null,
+    avoid:   (avoidElement?.value ?? '').trim(),
+    time:     cookElement?.value ? Number(cookElement.value) : null,
+    budget:   budgetElement?.value ? Number(budgetElement.value) : null,
+    servings: servingsElement?.value ? Number(servingsElement.value) : null,
   };
 
   try {
@@ -25,9 +25,12 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify(submitData),
     });
 
-    const data = await res.json(); // ← response ではなく res
+    const data = await res.json();
 
-    if (data.ok) {
+
+
+    // 以下ステータス管理 
+    if (data.success) {
       status.textContent = '保存が完了しました';
       setTimeout(() => (status.textContent = ''), 3000);
     } else {
