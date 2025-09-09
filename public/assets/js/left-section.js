@@ -171,7 +171,7 @@
             return {
               title: r.recipeTitle,
               url: r.recipeUrl,
-              imageUrl: r.smallImageUrl || r.mediumImageUrl || r.foodImageUrl || "",
+              imageUrl: r.foodImageUrl || r.mediumImageUrl || r.smallImageUrl || "",
               materials: Array.isArray(r.recipeMaterial) ? r.recipeMaterial : [],
               selected: ko.observable(false)
             };
