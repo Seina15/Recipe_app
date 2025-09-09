@@ -23,6 +23,10 @@ class Controller_Home extends Controller
     {
         return Response::forge(View::forge('ui/register'));
     }
+    public function action_login()
+    {
+        return Response::forge(View::forge('ui/login'));
+    }
 
     # 404ページ
     public function action_404()

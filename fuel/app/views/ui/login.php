@@ -2,12 +2,12 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Register</title>
+        <title>Login</title>
         <link rel="stylesheet" href="/assets/css/register_style.css">
     </head>
 
     <body>
-        <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">Create Account</h1>
+        <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">ログイン</h1>
         <section class="register-section">
             
            
@@ -19,13 +19,13 @@
                 <p class="input-label">パスワードを入力してください</p>
                 <input class="input-form" type="password" name="password" placeholder="Password" data-bind="value: password"><br>
 
-                <input class="submit-button" type="submit" value="登録">
-                <input class="login-button" type="button" value="ログイン" onclick="location.href='/home/login'">
+                <input class="submit-button" type="submit" value="ログイン">
+                <input class="create-button" type="button" value="新規登録" onclick="location.href='/home/register'">
 
             </form>
         </section>
         <script src="/knockout-3.2.0.js"></script>
-        <script src="/assets/js/register.js"></script>
+        <script src="/assets/js/login.js"></script>
     </body>
 </html>
 
