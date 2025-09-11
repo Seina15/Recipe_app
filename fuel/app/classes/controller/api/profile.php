@@ -3,13 +3,6 @@ class Controller_Api_Profile extends Controller_Rest
 {
     protected $format = "json";
 
-    // テスト用
-    // public function get_index()
-    // {
-    //     return $this->response(["success" => true, "ping" => "pong"]);
-    // }
-
-
     public function post_index()
     {
         try {

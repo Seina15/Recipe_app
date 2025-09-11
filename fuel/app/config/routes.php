@@ -1,6 +1,6 @@
 <?php
 return array(
-  "_root_"  => "home/index",
+  "_root_"  => "home/register",
   "_404_"   => "home/404",
 
   // テスト用

@@ -19,7 +19,7 @@
                 <input class="input-form" type="password" name="password" placeholder="Password" data-bind="value: password"><br>
 
                 <input class="submit-button" type="submit" value="登録">
-                <input class="login-button" type="button" value="ログイン" onclick="location.href="/home/login"">
+                <input class="login-button" type="button" value="ログイン" onclick="location.href='/home/login'">
 
             </form>
         </section>
