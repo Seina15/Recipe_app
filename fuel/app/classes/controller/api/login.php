@@ -7,7 +7,7 @@ use Fuel\Core\Session;
 class Controller_Api_Login extends Controller_Rest
 {
     protected $format = "json";
-
+    protected $auth_required = false;
     public function before()
     {
         parent::before();

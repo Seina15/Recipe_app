@@ -12,7 +12,7 @@ function LoginVM(){
         self.error("");
         self.loading(true);
         try {
-            const res = await fetch("/api/login", {
+            const res = await fetch("index.php/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -29,7 +29,7 @@ function LoginVM(){
 
             self.userId(json.user.id);
             self.password("");
-            window.location.href = "./profile.php"; 
+            window.location.href = "./home/profile.php"; 
 
         } catch(e){
             self.error(e.message);

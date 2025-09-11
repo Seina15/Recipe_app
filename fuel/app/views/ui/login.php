@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">ログイン</h1>
+        <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">Login</h1>
         <section class="register-section">
             <div class="error-msg" data-bind="visible: error, text: error" style="color: rgba(181, 47, 47, 1)"></div>
 
@@ -20,7 +20,7 @@
                 <input class="input-form" type="password" name="password" placeholder="Password" data-bind="value: password"><br>
 
                 <input class="submit-button" type="submit" value="ログイン">
-                <input class="create-button" type="button" value="新規登録" onclick="location.href="/home/register"">
+                <input class="create-button" type="button" value="新規登録" onclick="location.href='/home/register'">
 
             </form>
         </section>
@@ -28,7 +28,7 @@
         <script src="/assets/js/login.js"></script>
          <script>
             document.addEventListener("DOMContentLoaded", function () {
-                ko.applyBindings(new LoginVM());
+                ko.applyBindings(new LoginVM(), document.querySelector('.register-section'));
             });
         </script>
     </body>

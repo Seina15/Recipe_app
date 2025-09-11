@@ -2,11 +2,23 @@
 
 class Controller_Home extends Controller
 {
+
+    public function before()
+    {
+        parent::before();
+        $public = ["login", "register", "404"];
+        $action    = \Request::active()->action;
+        $logged = (bool) \Session::get('user_id');
+
+        if (!$logged && !in_array($action, $public, true)) {
+            return \Response::redirect('home/login');
+        }
+    }
+
     # ホームページ
     public function action_index()
     {
-        $user_id = 1; // 仮のユーザーID（後で変える）
-        // Viewの呼び出しとIDをわたす
+        $user_id = (int) \Session::get('user_id');
         return \Response::forge(\View::forge('ui/index', [
             'user_id' => $user_id, 
         ]));
