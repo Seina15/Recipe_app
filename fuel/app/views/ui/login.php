@@ -9,9 +9,9 @@
     <body>
         <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">ログイン</h1>
         <section class="register-section">
-            
-           
-            <form class="register-form"  data-bind="submit: submit">
+            <div class="error-msg" data-bind="visible: error, text: error" style="color: rgba(181, 47, 47, 1)"></div>
+
+            <form class="register-form"  data-bind="submit: login">
 
                 <p class="input-label">ユーザー名を英数字で入力してください</p>
                 <input class="input-form" type="text" name="username" placeholder="ユーザー名" data-bind="value: username"><br>
@@ -20,12 +20,17 @@
                 <input class="input-form" type="password" name="password" placeholder="Password" data-bind="value: password"><br>
 
                 <input class="submit-button" type="submit" value="ログイン">
-                <input class="create-button" type="button" value="新規登録" onclick="location.href='/home/register'">
+                <input class="create-button" type="button" value="新規登録" onclick="location.href="/home/register"">
 
             </form>
         </section>
         <script src="/knockout-3.2.0.js"></script>
         <script src="/assets/js/login.js"></script>
+         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                ko.applyBindings(new LoginVM());
+            });
+        </script>
     </body>
 </html>
 
