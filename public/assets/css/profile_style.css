@@ -1,13 +1,55 @@
+/* ヘッダー関連 */
+header {
+    background-color: #da8660;
+    padding: 30px 0;
+    position: relative;
+}
+#home-icon .fa-solid {
+  font-size: 60px;
+  line-height: 1; 
+}
+.header-title {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    color:  rgb(77, 58, 55);
+    font-size: 45px;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
+
+#home-icon {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*　リンクの下線対策 */
+#home-icon,
+#home-icon:link,
+#home-icon:visited,
+#home-icon:hover,
+#home-icon:active,
+#home-icon:focus {
+    color: rgb(77, 58, 55);
+    text-decoration: none;
+    outline: none;
+}
+
+
+.fa-solid {
+    color: rgb(77, 58, 55);
+}
+
+
+
+/* 登録フォーム関連 */
 .profile-center-wrapper {
     display: flex;
     justify-content: center;
     width: 100vw;
-}
-.profile-title{
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
 }
 
 .section-profile {
@@ -39,39 +81,9 @@
 }
 
 .row label {
-  margin-right: 5%;/
+  margin-right: 5%;
 }
 
-
-header {
-    background-color: #da8660;
-    padding: 30px 0;
-    position: relative;
-}
-
-.header-title {
-    font-size: 30px;
-    font-weight: bold;
-    margin: 0;
-    text-align: center;
-}
-
-#home-icon {
-    position: absolute;
-    top: 50%;
-    right: 40px;
-    width: 50px;
-    height: 50px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.fa-solid {
-    color: rgb(77, 58, 55);
-    font-size: 40px
-}
 .reset-button {
     height: 50px;
     width: 150px;

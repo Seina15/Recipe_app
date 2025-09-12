@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <title>Register</title>
         <link rel="stylesheet" href="/assets/css/register_style.css">
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
     </head>
 
     <body>

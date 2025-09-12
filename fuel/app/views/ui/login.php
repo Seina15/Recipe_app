@@ -2,11 +2,14 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Login</title>
+        <title>ログイン
+        </title>
         <link rel="stylesheet" href="/assets/css/register_style.css">
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
     </head>
 
-    <body>
+    <body >
         <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">Login</h1>
         <section class="register-section">
             <div class="error-msg" data-bind="visible: error, text: error" style="color: rgba(181, 47, 47, 1)"></div>

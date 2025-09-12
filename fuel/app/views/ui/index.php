@@ -22,11 +22,11 @@
             <div class="section-header">
                 <h1>Recommend</h1>
                 
-                <button class="icon-btn" id="filter-recommend" >
+                <button class="icon-btn" id="filter-recommend" data-bind="click: FilterRecommend">
                     <i class="fa-solid fa-filter"></i>
                 </button>
 
-                <button class="icon-btn" id="filter-search" >
+                <button class="icon-btn" id="filter-search" data-bind="click: FilterSearch">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
 
