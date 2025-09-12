@@ -18,7 +18,7 @@
   margin-top: 2%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 25px;
+  gap: 20px;
 }
 
 .menu-card {
@@ -68,9 +68,9 @@
 .materials-section {
   text-align: left;
   width: 100%;
-  margin-top: 8px;
   background-color: #ece4de;
   border-radius: 10px;
+  padding: 10px;
 }
 
 
@@ -97,6 +97,7 @@
 
 .more {
   margin: 10px 0;
+
 }
 
 .font-kosugi {

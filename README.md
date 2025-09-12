@@ -31,6 +31,13 @@
 * **ライブラリ**: Knockout.js
 * **データベース**: MySQL
  
+### 🎨 デザイン
+- **フォント**:  
+  - [M PLUS Rounded 1c](https://fonts.google.com/specimen/M+PLUS+Rounded+1c)  
+  - [Kosugi Maru](https://fonts.google.com/specimen/Kosugi+Maru)
+
+- **アイコン**:  
+  - [Font Awesome 6 Free](https://fontawesome.com/icons)  
 ---
 
 ## 📂 構成
