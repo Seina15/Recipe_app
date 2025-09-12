@@ -11,20 +11,25 @@
   display: flex;
   gap: 8px;
   align-items: center;
-  margin: 8px 0;
 }
 
 /* メニューカード */
 .menus-grid {
+  margin-top: 2%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
 }
 
 .menu-card {
-  border: 3px solid #e8b185ff;
+  border: 3px solid rgb(105, 69, 40);
   border-radius: 12px;
-  padding: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 240px;
+  max-width: 100%;
 }
 
 .menu-card label {
@@ -35,13 +40,15 @@
 }
 
 .menu-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: contain;
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
   border-radius: 8px;
-  background: #f4e27d;
   padding: 10px;
   box-sizing: border-box;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -51,6 +58,20 @@
   line-height: 1.3;
 }
 
+.menu-card input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  accent-color: #e8b185;
+  margin-right: 6px;
+}
+
+.materials-section {
+  text-align: left;
+  width: 100%;
+  margin-top: 8px;
+  background-color: #ece4de;
+  border-radius: 10px;
+}
 
 
 /* ボタン関連 */
@@ -75,6 +96,9 @@
 
 
 .more {
-  text-align: center;
   margin: 10px 0;
+}
+
+.font-kosugi {
+  font-family: 'Kosugi Maru', sans-serif;
 }

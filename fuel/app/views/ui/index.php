@@ -4,7 +4,8 @@
 
     <meta charset="utf-8">
     <link rel="stylesheet" href="/assets/css/home_style.css">
-    <title>ホームページ</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <title>クックリスト</title>
     <script>
         window.USER_ID = <?= (int)$user_id ?? 1 ?>;　// ユーザーIDをJavaScriptに渡す（テスト用！後で変える）
     </script>
@@ -40,11 +41,11 @@
             <div class="section-header" style="display: flex; align-items: center; gap: 20px;">
                 <h1>Shopping List</h1>
 
-                <button class="icon-btn" id="clear-btn" data-bind="click: removeItem" style="background-color:#da8660;">
+                <button class="icon-btn" id="clear-btn" data-bind="click: removeItem" style="background-color:#efbfae;">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
 
-                <button class="icon-btn" id="add-btn" data-bind="click: appendItem" style="background-color:#4CAF50;">
+                <button class="icon-btn" id="add-btn" data-bind="click: appendItem" style="background-color:#7fd6a7;">
                     <i class="fa-solid fa-circle-plus"></i>
                 </button>
             </div>

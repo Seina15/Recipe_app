@@ -1,3 +1,8 @@
+.profile-center-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
 .profile-title{
     font-size: 50px;
     font-weight: bold;
@@ -7,14 +12,15 @@
 
 .section-profile {
     padding: 40px;
-    margin-left: 5%;
-    margin-right: 5%;
     margin-top: 3%;
+
+    position: relative;
     background-color: #ddc495;
     border: 2px solid #7d582a;
     border-radius: 15px;
     max-width: 900px;
     width: 100%;
+    text-align: center;
 }
 
 
@@ -66,3 +72,32 @@ header {
     color: rgb(77, 58, 55);
     font-size: 40px
 }
+.reset-button {
+    height: 50px;
+    width: 150px;
+    border-radius: 15px;
+    border: none;
+    background-color: #ceaa56;
+    color: rgb(47, 37, 22);
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.reset-button:hover {
+    background-color: #b8904a;
+}
+
+.submit-button {
+    height: 50px;
+    width: 150px;
+    border-radius: 15px;
+    border: none;
+    background-color: #7d582a;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 20px;
+}   

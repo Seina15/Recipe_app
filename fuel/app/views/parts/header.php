@@ -1,9 +1,10 @@
 <link rel="stylesheet" href="/assets/css/header_style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
 
 <header>
-    <h1 class="header-title">レシピ検索アプリ</h1>
+    <h1 class="header-title">MyCookList</h1>
     <a id="profile-icon" href="/home/profile" title="プロフィール" style="margin-left:20px;">
-        <i class="fa-solid fa-user fa-3x"></i>
+    <i class="fa-solid fa-user"></i>
     </a>
 </header>
