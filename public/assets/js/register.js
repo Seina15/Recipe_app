@@ -40,7 +40,7 @@ function RegisterVM() {
         data = await res.json();
 
       if (res.ok && data && data.success) {
-        window.location.href = "/index.php";
+        window.location.href = "/home/profile.php"; 
 
       } else {
         self.error((data && data.error) || "登録に失敗しました");
