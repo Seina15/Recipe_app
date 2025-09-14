@@ -3,9 +3,8 @@
 (function () {
   function LeftVM () {
     let self = this;
-    // 検索フィルタ（おすすめ）用のダミー関数（必要に応じて実装）
     self.FilterRecommend = function() {
-      alert("おすすめ検索機能は未実装です");
+      alert("おすすめ検索機能(開発中)");
     };
 
     self.FilterSearch  = function() {
@@ -13,6 +12,8 @@
       if (!keyword || !keyword.trim()) return;
       const url = "/index.php/api/recipe/recommend.json?keyword=" + encodeURIComponent(keyword.trim());
     };
+
+
     self.loading = ko.observable(false); //状態
     self.error   = ko.observable(""); // エラーメッセージ
     self.allRecipes   = ko.observableArray([]); // レシピの配列
