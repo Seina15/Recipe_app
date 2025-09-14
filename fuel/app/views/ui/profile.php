@@ -14,7 +14,7 @@
 
         <header>
             <h1 class="header-title">Profile Setting</h1>
-            <a id="home-icon" href="/home/profile">
+            <a id="home-icon" href="/home">
                 <i class="fa-solid fa-house"></i>
             </a>
         </header>
@@ -46,7 +46,8 @@
                 <!-- 予算 -->
                 <div class="row">
                     <label for="budget">予算</label>
-                    <input class="input-box" id="budget" name="budget" type="number" min="0" step="100" placeholder="1000 (円)"/>
+                    <input class="input-box" id="budget" name="budget" type="number" min="0" step="100" placeholder="1000"/>
+                    <span style="font-size: 20px; margin-left: 8px;">円</span>
                 </div>
 
                 <!-- 人数 -->

@@ -1,14 +1,25 @@
+
+
 (function () {
   function LeftVM () {
-
     let self = this;
+    // 検索フィルタ（おすすめ）用のダミー関数（必要に応じて実装）
+    self.FilterRecommend = function() {
+      alert("おすすめ検索機能は未実装です");
+    };
+
+    self.FilterSearch  = function() {
+      const keyword = prompt("キーワードを入力してください:");
+      if (!keyword || !keyword.trim()) return;
+      const url = "/index.php/api/recipe/recommend.json?keyword=" + encodeURIComponent(keyword.trim());
+    };
     self.loading = ko.observable(false); //状態
-    self.error   = ko.observable(''); // エラーメッセージ
+    self.error   = ko.observable(""); // エラーメッセージ
     self.allRecipes   = ko.observableArray([]); // レシピの配列
     self.visibleCount = ko.observable(2); // 表示件数
 
     const MoreDisplay = 12; 
-    const DEFAULT_CATEGORY_ID = '';
+    const DEFAULT_CATEGORY_ID = "";
   
     // もっと見る処理
     self.onMenuToggle = function(menu) {
@@ -55,33 +66,16 @@
 
       });
 
-      // リストの再生成 & アイテムの追加
-      window.rightVM.items.removeAll();
-      var make;
-      if (window.rightVM && typeof window.rightVM.createItem === 'function') {
-        make = window.rightVM.createItem.bind(window.rightVM);
-
-      } else {
-        make = function(name) {
-          return {
-            name: ko.observable(name),
-            checked: ko.observable(false)
-          };
-        };
-      }
-
-      var keys = Object.keys(uniqueItem);
-      for (var i = 0; i < keys.length; i++) {
-        var key = keys[i];
-        var originalText = uniqueItem[key];
-        var item = make(originalText);
-        window.rightVM.items.push(item);
+      // ユニーク化した材料を「追記」する（既存は保持・重複は右側で無視）
+      var list = Object.keys(uniqueItem).map(function(k){ return uniqueItem[k]; });
+      if (typeof window.addIngredientsToShopping === "function") {
+        window.addIngredientsToShopping(list);
+      } else if (window.rightVM && typeof window.rightVM.addIngredients === "function") {
+        window.rightVM.addIngredients(list);
       }
 
     };
 
-
-    
     self.menus = ko.pureComputed(function () {
       return self.allRecipes().slice(0, self.visibleCount());
     });
@@ -101,14 +95,14 @@
    
 
     self.reloadRecipe = function () {
-      self.error('');
+      self.error("");
       self.loading(true);
 
       var userId = window.USER_ID || 1;
-      var url = '/index.php/api/recipe/ranking.json?userId=' + userId;
+      var url = "/index.php/api/recipe/ranking.json?userId=" + userId;
 
       if (DEFAULT_CATEGORY_ID) {
-        url += '&categoryId=' + encodeURIComponent(DEFAULT_CATEGORY_ID);
+        url += "&categoryId=" + encodeURIComponent(DEFAULT_CATEGORY_ID);
       }
 
 
@@ -122,7 +116,7 @@
             try {
               json = JSON.parse(text);
             } catch (e) {
-              throw new Error('non-json: ' + text.slice(0, 200));
+              throw new Error("non-json: " + text.slice(0, 200));
             }
 
             var okFlag = (json && json.success === true);
@@ -193,8 +187,8 @@
 
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var left = document.getElementById('left-section');
+  document.addEventListener("DOMContentLoaded", function () {
+    var left = document.getElementById("left-section");
     if (left) {
       window.leftVM = new LeftVM();
       ko.applyBindings(window.leftVM, left);

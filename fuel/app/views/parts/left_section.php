@@ -33,7 +33,8 @@
         </a>
 
         <div class="materials-section">
-          <strong class="font-kosugi" style="margin-left: 15px;">材料</strong>
+          <div></div>
+          <strong class="font-kosugi" style="margin-left: 15px; margin-top: 15px;">材料</strong>
           <ul class="materials-list" data-bind="foreach: materials">
             <li data-bind="text: $data" class="font-kosugi"></li>
           </ul>
