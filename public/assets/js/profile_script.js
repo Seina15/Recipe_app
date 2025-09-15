@@ -68,6 +68,6 @@ form.addEventListener("submit", async (e) => {
       status.textContent = "保存に失敗しました。" + (data.error || `HTTP ${res.status}`);
     }
   } catch (err) {
-    status.textContent = "エラー内容：" + err.message;
+    status.textContent = "エラー：" + err.message;
   }
 });
