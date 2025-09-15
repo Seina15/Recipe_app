@@ -1,4 +1,5 @@
 <?php
+
 class Controller_Api_Profile extends Controller_Rest
 {
     protected $format = "json";
@@ -6,6 +7,12 @@ class Controller_Api_Profile extends Controller_Rest
     public function post_index()
     {
         try {
+            $userId = \Session::get("user_id");
+            if (!$userId) {
+                return $this->response(["success"=>false,"error"=>"unauthorized"], 401);
+            }
+
+
             $raw = file_get_contents("php://input"); // 文字列として全文を読み込み
 
             // 入力データが読み取れなかったとき
@@ -99,10 +106,6 @@ class Controller_Api_Profile extends Controller_Rest
                 $servings = (int)$srv;
             }
 
-
-            // テスト用ユーザーID（後で変える）
-            $userId = 1;
-
             // --- DBに保存 ---
             $sql = "
                 INSERT INTO user_profile (user_id, avoid, time, budget, servings, updated_at)
@@ -116,14 +119,14 @@ class Controller_Api_Profile extends Controller_Rest
             ";
 
             $params = [
-                "userid"   => $userId,
-                "avoid"    => $avoid,
-                "time"     => $time,
-                "budget"   => $budget,
-                "servings" => $servings,
+                ":userid"   => $userId,
+                ":avoid"    => $avoid,
+                ":time"     => $time,
+                ":budget"   => $budget,
+                ":servings" => $servings,
             ];
+            \DB::query($sql)->parameters($params)->execute();
 
-            $result = \DB::query($sql)->parameters($params)->execute();
 
             return $this->response(["success" => true], 200);
 
