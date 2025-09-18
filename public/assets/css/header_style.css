@@ -29,3 +29,14 @@ header {
 .fa-solid {
     color: rgb(77, 58, 55);
 }
+
+.account-name{
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    color: rgb(99, 56, 56);
+    font-size: 30px;
+    margin: 0;
+}

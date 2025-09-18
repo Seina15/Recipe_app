@@ -11,10 +11,38 @@ class Model_User extends \Model
             WHERE username = :username
             LIMIT 1
         ")
+
         ->bind('username', $username)
         ->execute()
         ->current();
 
-        return $row ?: null;
+        if ($row) {
+            return $row;
+        } else {
+            return null;
+        }
+    }
+
+
+    public static function find_by_id(int $id): ?array
+    {
+        $query = "
+            SELECT id, username
+            FROM users
+            WHERE id = :id
+            LIMIT 1
+        ";
+
+        $result = DB::query($query)
+            ->bind('id', $id)
+            ->execute()
+            ->as_array();
+
+        if (isset($result[0])) {
+            return $result[0];
+            
+        } else {
+            return null;
+        }
     }
 }

@@ -7,16 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <title>クックリスト</title>
     <script>
-        window.USER_ID = <?= (int)$user_id ?? 1 ?>;　// ユーザーIDをJavaScriptに渡す（テスト用！後で変える）
+        window.USER_ID = <?= (int)$user_id ?? 1 ?>;
     </script>
 
 </head>
 
 <body>
-    <?php echo View::forge('parts/header'); ?>
+    <?php echo \View::forge('parts/header', ['username' => $username]); ?>
 
     <section class="main-sections">
-
         <!-- Left Section -->
         <div class="left-section" id ="left-section">
             <div class="section-header">
