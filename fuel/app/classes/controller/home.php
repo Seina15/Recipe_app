@@ -19,8 +19,19 @@ class Controller_Home extends Controller
     public function action_index()
     {
         $user_id = (int) \Session::get('user_id');
+        $username = 'Guest';
+
+        if (ctype_digit((string)$user_id)) { 
+            $user = Model_User::find_by_id((int)$user_id);
+
+            if ($user && !empty($user['username'])) {
+                $username = $user['username'];
+            }
+        }
+
         return \Response::forge(\View::forge('ui/index', [
             'user_id' => $user_id, 
+            'username' => $username,
         ]));
     }
 
