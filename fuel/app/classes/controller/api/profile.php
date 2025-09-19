@@ -71,16 +71,16 @@ class Controller_Api_Profile extends Controller_Rest
 
 
             // 「調理時間」の正規化
-            $time = null;
+            $cook_time = null;
 
-            if (isset($data["time"]) && $data["time"] !== "") {
-                $val = is_string($data["time"]) ? trim($data["time"]) : $data["time"];
+            if (isset($data["cook_time"]) && $data["cook_time"] !== "") {
+                $val = is_string($data["cook_time"]) ? trim($data["cook_time"]) : $data["cook_time"];
                 $tm = filter_var($val, FILTER_VALIDATE_INT);
 
                 if ($tm === false || $tm < 0) {
-                    return $this->response(["success" => false, "error" => "time is not int"], 400);
+                    return $this->response(["success" => false, "error" => "cook_time is not int"], 400);
                 }
-                $time = (int)$tm;
+                $cook_time = (int)$tm;
             }
 
 
@@ -108,11 +108,11 @@ class Controller_Api_Profile extends Controller_Rest
 
             // --- DBに保存 ---
             $sql = "
-                INSERT INTO user_profile (user_id, avoid, time, budget, servings, updated_at)
-                VALUES (:userid, :avoid, :time, :budget, :servings, NOW())
+                INSERT INTO user_profile (user_id, avoid, cook_time, budget, servings, updated_at)
+                VALUES (:userid, :avoid, :cook_time, :budget, :servings, NOW())
                 ON DUPLICATE KEY UPDATE
                     avoid      = VALUES(avoid),
-                    time       = VALUES(time),
+                    cook_time       = VALUES(cook_time),
                     budget     = VALUES(budget),
                     servings   = VALUES(servings),
                     updated_at = NOW()
@@ -121,7 +121,7 @@ class Controller_Api_Profile extends Controller_Rest
             $params = [
                 ":userid"   => $userId,
                 ":avoid"    => $avoid,
-                ":time"     => $time,
+                ":cook_time"     => $cook_time,
                 ":budget"   => $budget,
                 ":servings" => $servings,
             ];

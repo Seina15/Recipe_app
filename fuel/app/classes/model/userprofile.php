@@ -3,9 +3,10 @@ use Fuel\Core\DB;
 
 class Model_UserProfile extends \Model
 {
+    // ユーザープロフィールを保存 or 更新する関数
     public static function get_prefs(int $userId): array
     {
-        $sql = "SELECT avoid, time, budget
+        $sql = "SELECT avoid, cook_time, budget
                   FROM user_profile
                  WHERE user_id = :uid
                  LIMIT 1";
@@ -14,7 +15,7 @@ class Model_UserProfile extends \Model
         $row = $res->current();
 
         $avoid  = null;
-        $time   = null;
+        $cook_time = null;
         $budget = null;
 
         if (is_array($row)) {
@@ -22,12 +23,12 @@ class Model_UserProfile extends \Model
                 $tmp = trim((string)$row['avoid']);
                 if ($tmp !== '') $avoid = $tmp;
             }
-            if (array_key_exists('time', $row)) {
-                $val = $row['time'];
+            if (array_key_exists('cook_time', $row)) {
+                $val = $row['cook_time'];
                 if ($val !== '' && $val !== null) {
                     $t = filter_var($val, FILTER_VALIDATE_INT, ['options'=>['min_range'=>0]]);
                     if ($t !== false){
-                        $time = (int)$t;
+                        $cook_time = (int)$t;
                     }
                 }
             }
@@ -41,6 +42,6 @@ class Model_UserProfile extends \Model
                 }
             }
         }
-        return ['avoid'=>$avoid, 'time'=>$time, 'budget'=>$budget];
+        return ['avoid'=>$avoid, 'cook_time'=>$cook_time, 'budget'=>$budget];
     }
 }
