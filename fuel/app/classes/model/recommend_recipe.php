@@ -9,7 +9,7 @@ class Model_Recommend_Recipe extends \Model
     public static function getProfileInfo(int $userId): array
     {
         $row = DB::query(
-            "SELECT avoid, cook_time, budget, servings
+            "SELECT avoid, cook_time, budget
                FROM user_profile
               WHERE user_id = :uid
               ORDER BY updated_at DESC, id DESC
@@ -17,13 +17,12 @@ class Model_Recommend_Recipe extends \Model
         )->parameters(["uid" => $userId])->execute()->current();
 
         if (!$row) {
-            return ["avoid"=>null, "cook_time"=>null, "budget"=>null, "servings"=>null];
+            return ["avoid"=>null, "cook_time"=>null, "budget"=>null];
         }
         return [
             "avoid"    => $row["avoid"],
             "cook_time"=> ($row["cook_time"] !== null ? (int)$row["cook_time"] : null),
             "budget"   => ($row["budget"]   !== null ? (int)$row["budget"]   : null),
-            "servings" => ($row["servings"] !== null ? (int)$row["servings"] : null),
         ];
     }
 
@@ -33,7 +32,7 @@ class Model_Recommend_Recipe extends \Model
         array $recipes,
         ?string $avoid,
         ?int $cook_time,
-        ?int $budgetYen = null,
+        ?int $budgetYen = null
     ): array
     {
         $avoidFood = self::normalizedAvoid($avoid);

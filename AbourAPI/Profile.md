@@ -15,7 +15,6 @@
   "avoid": "卵, 牛乳",
   "time": 30,
   "budget": 1000,
-  "servings": 2
 }
 ```
 
@@ -24,12 +23,10 @@
 avoid      | string  | 任意（NULLでも可） | 嫌いなもの・アレルギー食材
 time       | int     | 任意 （NULLでも可）| 調理時間（分）
 budget     | int     | 任意 （NULLでも可）| 予算（円）
-servings   | int     | 任意 （NULLでも可）| 何人分 
 
 ## バリデーション
 - `time` 0以上の整数
 - `budget` 0以上の整数（100区切り）
-- `servings` 1以上の整数
 
 ## レスポンス例
 ### 成功

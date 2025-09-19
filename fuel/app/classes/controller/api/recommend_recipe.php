@@ -61,7 +61,7 @@ class Controller_Api_Recommend_Recipe extends Controller
                 $categories = [];
 
                 if (!empty($res)) {
-                    $multiRes = \Model_Recipe::multiRes_category_ranking($res);
+                    $multiRes = \Model_Recipe::multi_category_ranking($res);
 
                     if (!$multiRes["success"]) return $this->proxy_error($multiRes);
                     $categories = $multiRes["data"];
@@ -89,7 +89,7 @@ class Controller_Api_Recommend_Recipe extends Controller
                         $lst,
                         $profileInfo["avoid"],
                         $profileInfo["cook_time"],
-                        $profileInfo["budget"],
+                        $profileInfo["budget"]
                     );
                 }
                 $cat["result"] = $lst;

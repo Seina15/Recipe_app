@@ -50,18 +50,6 @@
                     <span style="font-size: 20px; margin-left: 8px;">円</span>
                 </div>
 
-                <!-- 人数 -->
-                <div class="row">
-                    <label for="servings">人数</label>
-                    <select class="input-box" id="servings" name="servings">
-                    <option value="">選択してください…</option>
-                    <option value="1">1 人</option>
-                    <option value="2">2 人</option>
-                    <option value="3">3 人</option>
-                    <option value="4">4 人</option>
-                    <option value="5">5 人以上</option>
-                    </select>
-                </div>
 
                 <!-- 保存 / リセット -->
                 <div class="actions">

@@ -73,22 +73,21 @@
 
 
 
+
     // 表示するレシピに関する関数
-    self.menus = ko.calcDisplay(function () {
+    self.menus = ko.computed(function () {
       var all = self.allRecipes();
       var count = self.visibleCount();
       return all.slice(0, count);
     });
 
-
     // もっと見るボタンの表示判定関数
-    self.hasMore = ko.calcDisplay(function () {
+    self.hasMore = ko.computed(function () {
       return self.visibleCount() < self.allRecipes().length;
     });
 
-
     // レシピがないときの表示判定関数
-    self.hasNoRecipes = ko.calcDisplay(function () {
+    self.hasNoRecipes = ko.computed(function () {
       var isLoading = self.loading();
       var isError = !!self.error();
       var isEmpty = self.allRecipes().length === 0;

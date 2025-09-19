@@ -9,20 +9,20 @@ class Model_Recipe extends \Model
     public static function category_ranking(?string $categoryId = null): array
 
     {
-        $app_id = getenv('RAKUTEN_APP_ID');
+        $app_id = getenv("RAKUTEN_APP_ID");
         if (!$app_id) {
             return [
-                'success' => false,
-                'stage'   => 'config',
-                'error'   => 'RAKUTEN_APP_ID is not set in .env'
+                "success" => false,
+                "stage"   => "config",
+                "error"   => "RAKUTEN_APP_ID is not set in .env"
             ];
         }
 
-        $url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426'
-             . '?applicationId=' . rawurlencode($app_id);
+        $url = "https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426"
+             . "?applicationId=" . rawurlencode($app_id);
 
         if ($categoryId) {
-            $url .= '&categoryId=' . rawurlencode($categoryId);
+            $url .= "&categoryId=" . rawurlencode($categoryId);
         }
 
         // cURLでAPIリクエスト
@@ -39,18 +39,18 @@ class Model_Recipe extends \Model
         // 通信エラー
         if ($raw === false) {
             return [
-                'success' => false,
-                'stage'   => 'curl',
-                'error'   => $errorMsg
+                "success" => false,
+                "stage"   => "curl",
+                "error"   => $errorMsg
             ];
         }
         // HTTPエラー
         if ($http >= 400) {
             return [
-                'success'  => false,
-                'stage'    => 'upstream',
-                'http'     => $http,
-                'raw_head' => mb_substr($raw, 0, 200)
+                "success"  => false,
+                "stage"    => "upstream",
+                "http"     => $http,
+                "raw_head" => mb_substr($raw, 0, 200)
             ];
         }
 
@@ -58,16 +58,16 @@ class Model_Recipe extends \Model
         $data = json_decode($raw, true);
         if (!is_array($data)) {
             return [
-                'success'  => false,
-                'stage'    => 'parse',
-                'error'    => 'non-json',
-                'raw_head' => mb_substr($raw, 0, 200)
+                "success"  => false,
+                "stage"    => "parse",
+                "error"    => "non-json",
+                "raw_head" => mb_substr($raw, 0, 200)
             ];
         }
 
         return [
-            'success' => true,
-            'data'    => $data
+            "success" => true,
+            "data"    => $data
         ];
     }
 
@@ -75,17 +75,17 @@ class Model_Recipe extends \Model
     // 楽天APIから「カテゴリ一覧」を取得する関数
     public static function category_list(): array
     {
-        $app_id = getenv('RAKUTEN_APP_ID');
+        $app_id = getenv("RAKUTEN_APP_ID");
         if (!$app_id) {
             return [
-                'success' => false,
-                'stage'   => 'config',
-                'error'   => 'RAKUTEN_APP_ID is not set in .env'
+                "success" => false,
+                "stage"   => "config",
+                "error"   => "RAKUTEN_APP_ID is not set in .env"
             ];
         }
 
-        $url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426'
-             . '?applicationId=' . rawurlencode($app_id);
+        $url = "https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426"
+             . "?applicationId=" . rawurlencode($app_id);
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [
@@ -100,33 +100,33 @@ class Model_Recipe extends \Model
 
         if ($raw === false) {
             return [
-                'success' => false,
-                'stage'   => 'curl',
-                'error'   => $errorMsg
+                "success" => false,
+                "stage"   => "curl",
+                "error"   => $errorMsg
             ];
         }
         if ($http >= 400) {
             return [
-                'success'  => false,
-                'stage'    => 'upstream',
-                'http'     => $http,
-                'raw_head' => mb_substr($raw, 0, 200)
+                "success"  => false,
+                "stage"    => "upstream",
+                "http"     => $http,
+                "raw_head" => mb_substr($raw, 0, 200)
             ];
         }
 
         $data = json_decode($raw, true);
         if (!is_array($data)) {
             return [
-                'success'  => false,
-                'stage'    => 'parse',
-                'error'    => 'non-json',
-                'raw_head' => mb_substr($raw, 0, 200)
+                "success"  => false,
+                "stage"    => "parse",
+                "error"    => "non-json",
+                "raw_head" => mb_substr($raw, 0, 200)
             ];
         }
 
         return [
-            'success' => true,
-            'data'    => $data
+            "success" => true,
+            "data"    => $data
         ];
     }
 
@@ -136,15 +136,15 @@ class Model_Recipe extends \Model
     {
         // カテゴリ一覧の取得
         $categotyList = self::category_list();
-        if (!$categotyList['success']) return $categotyList;
+        if (!$categotyList["success"]) return $categotyList;
 
         // キーワードの正規化
-        $normalizedKeyword = mb_convert_kana(trim($keyword), 'KVas', 'UTF-8');
-        if ($normalizedKeyword === '') return ['success'=>true, 'data'=>[]];
+        $normalizedKeyword = mb_convert_kana(trim($keyword), "KVas", "UTF-8");
+        if ($normalizedKeyword === "") return ["success"=>true, "data"=>[]];
 
         // カテゴリ一覧からキーワードを含むカテゴリIDを検索（魚、肉等のカテゴリ名）
-        if (isset($categotyList['data']['result'])) {
-            $result = $categotyList['data']['result'];
+        if (isset($categotyList["data"]["result"])) {
+            $result = $categotyList["data"]["result"];
         } else {
             $result = [];
         }
@@ -155,30 +155,30 @@ class Model_Recipe extends \Model
         // （Largeカテゴリ、Mediumカテゴリ、Smallカテゴリの順で探索）
 
         // Largeカテゴリ
-        foreach (($result['large'] ?? []) as $cat) {
-            if (mb_stripos($cat['categoryName'], $normalizedKeyword, 0, 'UTF-8') !== false) {
-                $ids[] = (string)$cat['categoryId'];
+        foreach (($result["large"] ?? []) as $cat) {
+            if (mb_stripos($cat["categoryName"], $normalizedKeyword, 0, "UTF-8") !== false) {
+                $ids[] = (string)$cat["categoryId"];
             }
         }
 
         // Mediumカテゴリ
-        foreach (($result['medium'] ?? []) as $cat) {
-            if (mb_stripos($cat['categoryName'], $normalizedKeyword, 0, 'UTF-8') !== false) {
-                $ids[] = $cat['parentCategoryId'] . '-' . $cat['categoryId'];
+        foreach (($result["medium"] ?? []) as $cat) {
+            if (mb_stripos($cat["categoryName"], $normalizedKeyword, 0, "UTF-8") !== false) {
+                $ids[] = $cat["parentCategoryId"] . "-" . $cat["categoryId"];
             }
         }
 
         // Smallカテゴリ
         $parentOfMedium = [];
-        foreach (($result['medium'] ?? []) as $m) {
-            $parentOfMedium[$m['categoryId']] = $m['parentCategoryId'];
+        foreach (($result["medium"] ?? []) as $m) {
+            $parentOfMedium[$m["categoryId"]] = $m["parentCategoryId"];
         }
-        foreach (($result['small'] ?? []) as $cat) {
-            if (mb_stripos($cat['categoryName'], $normalizedKeyword, 0, 'UTF-8') !== false) {
-                $mediumId = $cat['parentCategoryId'];
+        foreach (($result["small"] ?? []) as $cat) {
+            if (mb_stripos($cat["categoryName"], $normalizedKeyword, 0, "UTF-8") !== false) {
+                $mediumId = $cat["parentCategoryId"];
                 $largeId  = $parentOfMedium[$mediumId] ?? null;
                 if ($largeId) {
-                    $ids[] = $largeId . '-' . $mediumId . '-' . $cat['categoryId'];
+                    $ids[] = $largeId . "-" . $mediumId . "-" . $cat["categoryId"];
                 }
             }
         }
@@ -190,8 +190,8 @@ class Model_Recipe extends \Model
         }
 
         return [
-            'success' => true,
-            'data'    => $ids
+            "success" => true,
+            "data"    => $ids
         ];
     }
 
@@ -204,16 +204,16 @@ class Model_Recipe extends \Model
         foreach ($categoryIds as $cid) {
             $rankingData = self::category_ranking($cid);
 
-            if ($rankingData['success']) {
+            if ($rankingData["success"]) {
                 $out[] = [
-                    'categoryId' => $cid,
-                    'result'     => isset($rankingData['data']['result']) ? $rankingData['data']['result'] : []
+                    "categoryId" => $cid,
+                    "result"     => isset($rankingData["data"]["result"]) ? $rankingData["data"]["result"] : []
                 ];
 
             } else {
                 $out[] = [
-                    'categoryId' => $cid,
-                    'error'      => $rankingData
+                    "categoryId" => $cid,
+                    "error"      => $rankingData
                 ];
             }
 
@@ -222,8 +222,8 @@ class Model_Recipe extends \Model
         }
 
         return [
-            'success' => true,
-            'data'    => $out
+            "success" => true,
+            "data"    => $out
         ];
     }
 
@@ -233,7 +233,7 @@ class Model_Recipe extends \Model
     public static function default_rankings(): array
     {
         // large: 肉=31, 魚=32, ご飯もの=14
-        $defaultCategoryIds = ['31', '32', '14'];
+        $defaultCategoryIds = ["31", "32", "14"];
         return self::multi_category_ranking($defaultCategoryIds);
     }
 
@@ -244,7 +244,7 @@ class Model_Recipe extends \Model
     {
         foreach ($recipes as $recipe) {
             
-            $indicationMin = self::indicationToMinutes($recipe['recipeIndication'] ?? null);
+            $indicationMin = self::indicationToMinutes($recipe["recipeIndication"] ?? null);
             \DB::query(
                 "INSERT INTO recommend_recipe
                    (category_id, recipe_id, title, recipe_url, image_url, indication_min, recipe_cost)
@@ -255,13 +255,13 @@ class Model_Recipe extends \Model
                    indication_min=VALUES(indication_min), recipe_cost=VALUES(recipe_cost)"
 
             )->parameters([
-                'cid'   => $categoryId,
-                'rid'   => (string)($recipe['recipeId'] ?? ''),
-                'title' => (string)($recipe['recipeTitle'] ?? ''),
-                'url'   => (string)($recipe['recipeUrl'] ?? ''),
-                'img'   => (string)($recipe['mediumImageUrl'] ?? $recipe['foodImageUrl'] ?? ''),
-                'imin'  => $indicationMin,
-                'rc'    => (string)($recipe['recipeCost'] ?? ''),
+                "cid"   => $categoryId,
+                "rid"   => (string)($recipe["recipeId"] ?? ""),
+                "title" => (string)($recipe["recipeTitle"] ?? ""),
+                "url"   => (string)($recipe["recipeUrl"] ?? ""),
+                "img"   => (string)($recipe["mediumImageUrl"] ?? $recipe["foodImageUrl"] ?? ""),
+                "imin"  => $indicationMin,
+                "rc"    => (string)($recipe["recipeCost"] ?? ""),
             ])->execute();
         }
     }

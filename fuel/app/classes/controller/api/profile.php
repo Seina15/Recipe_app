@@ -96,25 +96,15 @@ class Controller_Api_Profile extends Controller_Rest
             }
 
 
-            // 「人数」の正規化
-            $servings = null;
-            if (isset($data["servings"]) && $data["servings"] !== "") {
-                $srv = filter_var($data["servings"], FILTER_VALIDATE_INT);
-                if ($srv === false || $srv <= 0) {
-                    return $this->response(["success" => false, "error" => "servings is not int"], 400);
-                }
-                $servings = (int)$srv;
-            }
 
             // --- DBに保存 ---
             $sql = "
-                INSERT INTO user_profile (user_id, avoid, cook_time, budget, servings, updated_at)
-                VALUES (:userid, :avoid, :cook_time, :budget, :servings, NOW())
+                INSERT INTO user_profile (user_id, avoid, cook_time, budget, updated_at)
+                VALUES (:userid, :avoid, :cook_time, :budget, NOW())
                 ON DUPLICATE KEY UPDATE
                     avoid      = VALUES(avoid),
                     cook_time       = VALUES(cook_time),
                     budget     = VALUES(budget),
-                    servings   = VALUES(servings),
                     updated_at = NOW()
             ";
 
@@ -123,7 +113,6 @@ class Controller_Api_Profile extends Controller_Rest
                 ":avoid"    => $avoid,
                 ":cook_time"     => $cook_time,
                 ":budget"   => $budget,
-                ":servings" => $servings,
             ];
             \DB::query($sql)->parameters($params)->execute();
 

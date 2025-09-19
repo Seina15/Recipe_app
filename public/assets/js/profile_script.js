@@ -7,7 +7,6 @@ form.addEventListener("submit", async (e) => {
   const avoidElement    = document.getElementById("avoid");
   const cookElement     = document.getElementById("cook_time");
   const budgetElement   = document.getElementById("budget");
-  const servingsElement = document.getElementById("servings");
 
 
   const submitData = {};
@@ -37,16 +36,12 @@ form.addEventListener("submit", async (e) => {
 
   var t = toInt(cookElement);
   var b = toInt(budgetElement);
-  var s = toInt(servingsElement);
 
   if (typeof t === "number") {
     submitData.time = t;
   }
   if (typeof b === "number") {
     submitData.budget = b;
-  }
-  if (typeof s === "number") {
-    submitData.servings = s;
   }
 
   try {

@@ -4,7 +4,6 @@ CREATE TABLE user_profile (
   avoid       TEXT         NULL,
   cook_time        INT          NULL,
   budget      INT          NULL,
-  servings    INT          NULL,
   updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
   KEY idx_user_profile_user_id (user_id),
