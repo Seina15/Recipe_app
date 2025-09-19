@@ -55,7 +55,6 @@
                 <div class="actions">
                     <button type="reset" class = "reset-button">リセット</button>
                     <button type="submit" class = "submit-button">保存</button>
-                    <p id="form-status" class="status" aria-live="polite"></p>
                 </div>
                 </form>
             </section>

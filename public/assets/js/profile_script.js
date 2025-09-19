@@ -1,5 +1,17 @@
+function showToast(message) {
+  let toast = document.createElement("div");
+  
+  toast.textContent = message;
+  toast.className = "profile-toast";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => document.body.removeChild(toast), 500);
+  }, 3000);
+}
+
 const form   = document.getElementById("profile-form");
-const status = document.getElementById("form-status");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -57,12 +69,11 @@ form.addEventListener("submit", async (e) => {
     try { data = JSON.parse(text); } catch { data = { success: false, error: text }; }
 
     if (res.ok && data.success) {
-      status.textContent = "保存が完了しました。";
-      setTimeout(() => (status.textContent = ""), 3000);
+      showToast("保存が完了しました。");
     } else {
-      status.textContent = "保存に失敗しました。" + (data.error || `HTTP ${res.status}`);
+      showToast("保存に失敗しました。" + (data.error || `HTTP ${res.status}`));
     }
   } catch (err) {
-    status.textContent = "エラー：" + err.message;
+    showToast("エラー：" + err.message);
   }
 });
