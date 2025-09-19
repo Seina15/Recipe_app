@@ -8,6 +8,8 @@
   <div class="loading-msg font-kosugi" data-bind="visible: loading">Reloading Now...</div>
   <div class="error-msg font-kosugi" data-bind="visible: error, text: error"></div>
 
+  <!-- レシピが存在しないときのメッセージ -->
+  <h1 class="no-recipes font-kosugi" style="color: #FF4500;" data-bind="visible: hasNoRecipes">レシピが存在しません</h1>
 
     <!-- リロードボタンと表示件数 -->
     <div class="reload-bar">

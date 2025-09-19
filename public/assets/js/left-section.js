@@ -1,167 +1,49 @@
-
-
 (function () {
   function LeftVM () {
     let self = this;
+
+
+    // おすすめ検索ボタン用（今後実装予定）
     self.FilterRecommend = function() {
       alert("おすすめ検索機能(開発中)");
     };
 
-    self.FilterSearch  = function() {
+
+    self.loading      = ko.observable(false);
+    self.error        = ko.observable("");
+    self.allRecipes   = ko.observableArray([]);
+    self.visibleCount = ko.observable(2);
+
+
+    // キーワード検索に関する関数
+    self.FilterSearch = function() {
       const keyword = prompt("キーワードを入力してください:");
       if (!keyword || !keyword.trim()) return;
-      const url = "/index.php/api/recipe/recommend.json?keyword=" + encodeURIComponent(keyword.trim());
-    };
 
+      const userId = window.USER_ID || 1;
+      const url = "/index.php/api/recommend_recipe/ranking.json?userId=" + userId +
+                  "&keyword=" + encodeURIComponent(keyword.trim());
 
-    self.loading = ko.observable(false); //状態
-    self.error   = ko.observable(""); // エラーメッセージ
-    self.allRecipes   = ko.observableArray([]); // レシピの配列
-    self.visibleCount = ko.observable(2); // 表示件数
-
-    const MoreDisplay = 12; 
-    const DEFAULT_CATEGORY_ID = "";
-  
-    // もっと見る処理
-    self.onMenuToggle = function(menu) {
-      if (!window.rightVM) return; 
-      self.AddItemFromRecipe();
-    };
-
-
-    // 選択したレシピの材料をお買い物リストに反映する関数
-    self.AddItemFromRecipe = function() {
-
-      if (!window.rightVM) return;
-
-      // 選択したレシピの抽出
-      var allMenus = self.allRecipes();
-      var selectedMenus = []; 
-
-      for (var i = 0; i < allMenus.length; i++) {
-        var menu = allMenus[i];
-
-        if (menu.selected && menu.selected() === true) {
-          selectedMenus.push(menu);
-        }
-      }
-
-
-      // 材料の重複判定
-      var uniqueItem = Object.create(null);
-      selectedMenus.forEach(function(menu) {
-
-        var materials = menu.materials || [];
-
-        // 材料の正規化
-        materials.forEach(function(material) {
-          var text = material ? material.toString() : "";
-          text = text.trim();
-          text = text.toLowerCase();
-          text = text.replace(/\s+/g, " ");
-
-          if (text.length > 0) {
-            uniqueItem[text] = material;
-          }
-       });
-
-      });
-
-      // ユニーク化した材料を「追記」する（既存は保持・重複は右側で無視）
-      var list = Object.keys(uniqueItem).map(function(k){ return uniqueItem[k]; });
-      if (typeof window.addIngredientsToShopping === "function") {
-        window.addIngredientsToShopping(list);
-      } else if (window.rightVM && typeof window.rightVM.addIngredients === "function") {
-        window.rightVM.addIngredients(list);
-      }
-
-    };
-
-    self.menus = ko.pureComputed(function () {
-      return self.allRecipes().slice(0, self.visibleCount());
-    });
-
-    // もっと表示できるかの判定をする
-    self.hasMore = ko.pureComputed(function () {
-      return self.visibleCount() < self.allRecipes().length;
-    });
-
-    // MoreDisplay分表示を増やす
-    self.showMore = function () {
-      var next = Math.min(self.visibleCount() + MoreDisplay, self.allRecipes().length);
-      self.visibleCount(next);
-    };
-
-
-   
-
-    self.reloadRecipe = function () {
-      self.error("");
       self.loading(true);
-
-      var userId = window.USER_ID || 1;
-      var url = "/index.php/api/recipe/ranking.json?userId=" + userId;
-
-      if (DEFAULT_CATEGORY_ID) {
-        url += "&categoryId=" + encodeURIComponent(DEFAULT_CATEGORY_ID);
-      }
-
-
-      return fetch(url)
+      fetch(url)
         .then(function(response) {
-          return response.text().then(function(text) {
-            console.debug("[ranking] http=", response.status, "raw:", text.slice(0, 300));
-
-
-            var json;
-            try {
-              json = JSON.parse(text);
-            } catch (e) {
-              throw new Error("non-json: " + text.slice(0, 200));
-            }
-
-            var okFlag = (json && json.success === true);
-
-            // エラーメッセージの作成
-            if (!okFlag) {
-              var msg = "サーバーエラー";
-              if (json && (json.error || json.message)) {
-                msg = json.error || json.message;
-
-              } else if (json && json.http != null) {
-                msg = "upstream http=" + json.http;
-
-              } else {
-                msg = "upstream http=" + response.status;
-              }
-
-              throw new Error(msg);
-            }
-            // 正常に動作している場合
-            return json;
-            
-          });
+          return response.json();
         })
-
-
         .then(function(json) {
-          var data = json.data || {};
-          var items;
-
-
-          if (Array.isArray(data.result)) {
-            items = data.result;
-          } else {
-            items = [];
+          if (!json.success) {
+            throw new Error(json.error || "API error(RecommendRecipe)");
           }
+  
+          var categories = Array.isArray(json.data.categories) ? json.data.categories : [];
+
+          var items = [];
+          categories.forEach(function(cat) {
+            if (Array.isArray(cat.result)) {
+              items = items.concat(cat.result);
+            }
+          });
 
 
-          if (items.length === 0) {
-            throw new Error("ランキングの読み込みエラー");
-          }
-          
-
-          // 受け取った情報の整形
           var mapped = items.map(function(r) {
             return {
               title: r.recipeTitle,
@@ -172,24 +54,107 @@
             };
           });
 
-          // UIの更新
-          self.allRecipes(mapped);
 
+          self.error("");
+          self.allRecipes(mapped);
+          var newCount = mapped.length > 0 ? Math.min(self.visibleCount(), mapped.length) : 2;
+          self.visibleCount(newCount);
         })
+
         .catch(function(e) {
-          console.error("ranking_load_error:", e);
-          self.error("メニュー取得のエラー： " + e.message);
-          self.allRecipes([]); 
+          console.error("FilterSearch error:", e);
+          self.error("検索エラー: " + e.message);
+          self.allRecipes([]);
         })
         .finally(function() {
           self.loading(false);
         });
     };
 
+
+
+    // 表示するレシピに関する関数
+    self.menus = ko.calcDisplay(function () {
+      var all = self.allRecipes();
+      var count = self.visibleCount();
+      return all.slice(0, count);
+    });
+
+
+    // もっと見るボタンの表示判定関数
+    self.hasMore = ko.calcDisplay(function () {
+      return self.visibleCount() < self.allRecipes().length;
+    });
+
+
+    // レシピがないときの表示判定関数
+    self.hasNoRecipes = ko.calcDisplay(function () {
+      var isLoading = self.loading();
+      var isError = !!self.error();
+      var isEmpty = self.allRecipes().length === 0;
+      return !isLoading && !isError && isEmpty;
+    });
+
+
+    // 「もっとみる」1回に増やす件数
+    const MoreDisplay = 12;
+
+
+    // もっと見るに関する関数
+    self.showMore = function () {
+      const next = Math.min(self.visibleCount() + MoreDisplay, self.allRecipes().length);
+      self.visibleCount(next);
+    };
+
+
+    // レシピの再読み込み関数
+    self.reloadRecipe = function () {
+      self.error("");
+      self.loading(true);
+
+      const userId = window.USER_ID || 1;
+      const url = "/index.php/api/recommend_recipe/ranking.json?userId=" + userId;
+
+      return fetch(url)
+        .then(res => res.text().then(text => {
+          let json;
+          try { json = JSON.parse(text); }
+          catch { throw new Error("non-json: " + text.slice(0, 200)); }
+
+          if (!json || json.success !== true) {
+            const msg = json?.error || json?.message || ("upstream http=" + (json?.http ?? res.status));
+            throw new Error(msg);
+          }
+          return json;
+        }))
+        .then(json => {
+          const categories = Array.isArray(json.data?.categories) ? json.data.categories : [];
+          const items = categories.flatMap(cat => Array.isArray(cat.result) ? cat.result : []);
+
+          const mapped = items.map(r => ({
+            title: r.recipeTitle,
+            url: r.recipeUrl,
+            imageUrl: r.foodImageUrl || r.mediumImageUrl || r.smallImageUrl || "",
+            materials: Array.isArray(r.recipeMaterial) ? r.recipeMaterial : [],
+            selected: ko.observable(false),
+          }));
+
+          self.error("");
+          self.allRecipes(mapped);
+          self.visibleCount( Math.min(self.visibleCount(), mapped.length || 2) );
+        })
+        .catch(e => {
+          console.error("recommend_ranking_load_error:", e);
+          self.error("メニュー取得のエラー： " + e.message);
+          self.allRecipes([]);
+        })
+        .finally(() => self.loading(false));
+    };
   }
 
+  
   document.addEventListener("DOMContentLoaded", function () {
-    var left = document.getElementById("left-section");
+    const left = document.getElementById("left-section");
     if (left) {
       window.leftVM = new LeftVM();
       ko.applyBindings(window.leftVM, left);
