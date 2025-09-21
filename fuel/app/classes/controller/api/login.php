@@ -3,6 +3,8 @@ use Fuel\Core\Controller_Rest;
 use Fuel\Core\Input;
 use Fuel\Core\Session;
 
+// ログインに関するAPI
+
 class Controller_Api_Login extends Controller_Rest
 {
     protected $format = "json";
@@ -38,7 +40,7 @@ class Controller_Api_Login extends Controller_Rest
             );
         }
 
-        Session::set("user_id", (int)$user["id"]);
+        Session::set("userID", (int)$user["id"]);
 
         return $this->response([
             "success" => true,

@@ -75,4 +75,5 @@ GET /index.php/api/recommend_recipe/ranking.json?userId=1&keyword=カレー
 ```
 
 ## 備考
-- レシピデータは外部API（楽天レシピ等）から取得しています。
+- レシピデータは外部API（楽天レシピ）から取得しています
+- .envファイルにアプリIDを設定して下さい
