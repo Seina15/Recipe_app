@@ -2,66 +2,47 @@
 
 use Fuel\Core\DB;
 
+// ユーザープロフィールに基づいてレシピをフィルタリング
+
 class Model_Recommend_Recipe extends \Model
 {
 
-    // ユーザープロフィールを取得するする関数
-    public static function getProfileInfo(int $userId): array
-    {
-        $row = DB::query(
-            "SELECT avoid, cook_time, budget
-               FROM user_profile
-              WHERE user_id = :uid
-              ORDER BY updated_at DESC, id DESC
-              LIMIT 1"
-        )->parameters(["uid" => $userId])->execute()->current();
-
-        if (!$row) {
-            return ["avoid"=>null, "cook_time"=>null, "budget"=>null];
-        }
-        return [
-            "avoid"    => $row["avoid"],
-            "cook_time"=> ($row["cook_time"] !== null ? (int)$row["cook_time"] : null),
-            "budget"   => ($row["budget"]   !== null ? (int)$row["budget"]   : null),
-        ];
-    }
-
-
     // ユーザープロフィールから、レシピをフィルタリングする関数
-    public static function FilterRecipeByProfile(
+    public static function filtered_recipe_by_profile(
         array $recipes,
         ?string $avoid,
         ?int $cook_time,
         ?int $budgetYen = null
     ): array
+
     {
-        $avoidFood = self::normalizedAvoid($avoid);
-        $noAvoid  = empty($avoidFood);
-        $noTime   = ($cook_time === null);
-        $rankMax  = self::yenToRank($budgetYen);
-        $noBudget = ($rankMax === null);
+        $avoid_food = self::normalized_avoid($avoid);
+        $noAvoid  = empty($avoid_food);
+        $no_time   = ($cook_time === null);
+        $rank_max  = self::yen_to_rank($budgetYen);
+        $no_budget = ($rank_max === null);
 
 
-        if ($noAvoid && $noTime && $noBudget) {
+        if ($noAvoid && $no_time && $no_budget) {
             usort($recipes, function($a, $b) {
-                return self::cmpIndicationMinutesAsc($a, $b);
+                return self::sort_minute($a, $b);
             });
             return $recipes;
         }
 
         $out = [];
         foreach ($recipes as $r) {
-            if (!$noAvoid && self::containsAvoid($r, $avoidFood)) {
+            if (!$noAvoid && self::contains_avoid($r, $avoidFood)) {
                 continue;
             }
             if (!$noTime) {
-                $mins = self::indicationToMinutes($r["recipeIndication"] ?? null);
+                $mins = self::str_to_minute($r["recipeIndication"] ?? null);
                 if ($mins === null || $mins > $cook_time){
                     continue;
                 }
             }
             if (!$noBudget) {
-                $rr = self::stringToRank($r["recipeCost"] ?? null);
+                $rr = self::str_to_rank($r["recipeCost"] ?? null);
                 if ($rr === null || $rr > $rankMax){
                     continue;
                 }
@@ -70,7 +51,7 @@ class Model_Recommend_Recipe extends \Model
         }
 
         usort($out, function($a, $b) {
-            return self::cmpIndicationMinutesAsc($a, $b);
+            return self::sort_minute($a, $b);
         });
         return $out;
     }
@@ -78,7 +59,7 @@ class Model_Recommend_Recipe extends \Model
 
 
     // プロフィールの「Avoid（避けたい食材）」を正規化する関数
-    private static function normalizedAvoid(?string $s): array
+    private static function normalized_avoid(?string $s): array
     {
         if ($s === null) return [];
         $s = mb_convert_kana(trim($s), "s", "UTF-8");
@@ -90,7 +71,7 @@ class Model_Recommend_Recipe extends \Model
 
 
     // レシピに避けたい食材が含まれているかどうかの判定関数
-    private static function containsAvoid(array $recipe, array $avoidFood): bool
+    private static function contains_avoid(array $recipe, array $avoidFood): bool
     {
         if (empty($avoidFood)) return false;
 
@@ -165,7 +146,7 @@ class Model_Recommend_Recipe extends \Model
 
 
     // 調理時間の文字列を分に変換する関数
-    private static function indicationToMinutes($indication): ?int
+    private static function str_to_minute($indication): ?int
     {
         if ($indication === null) return null;
         $txt = trim((string)$indication);
@@ -181,7 +162,7 @@ class Model_Recommend_Recipe extends \Model
     
 
     // 予算（円）を扱いやすいようにランク化する関数　[ユーザーのプロフィール情報]
-    private static function yenToRank(?int $yen): ?int
+    private static function yen_to_rank(?int $yen): ?int
         {
             if ($yen === null) return null;
 
@@ -203,9 +184,9 @@ class Model_Recommend_Recipe extends \Model
         }
 
 
-
-    // レシピの価格（文字列）を扱いやすいようにランク化する関数　[楽天レシピAPIから得た価格]
-    private static function stringToRank(?string $s): ?int
+        
+        // レシピの価格（文字列）を扱いやすいようにランク化する関数　[楽天レシピAPIから得た価格]
+    private static function str_to_rank(?string $s): ?int
     {
         if (!$s) return null;
         $k = str_replace([" ", "　", ","], "", $s);
@@ -214,20 +195,20 @@ class Model_Recommend_Recipe extends \Model
             "2000円前後"=>5, "3000円前後"=>6, "5000円前後"=>7, "10000円以上"=>8,
         ];
         if (isset($map[$k])) return $map[$k];
-        if (preg_match("/(\d{2,5})円/u", $k, $m)) return self::yenToRank((int)$m[1]);
+        if (preg_match("/(\d{2,5})円/u", $k, $m)) return self::yen_to_rank((int)$m[1]);
         return null;
     }
 
 
 
     // 調理時間の短い順にソートするための比較関数
-    private static function cmpIndicationMinutesAsc($a, $b): int
+    private static function sort_minute($a, $b): int
     {
 
         // レシピA
         $aMinutes = null;
         if (isset($a["recipeIndication"])) {
-            $aMinutes = self::indicationToMinutes($a["recipeIndication"]);
+            $aMinutes = self::str_to_minute($a["recipeIndication"]);
         }
         if ($aMinutes === null) {
             $aValue = PHP_INT_MAX;
@@ -238,7 +219,7 @@ class Model_Recommend_Recipe extends \Model
         // レシピB
         $bMinutes = null;
         if (isset($b["recipeIndication"])) {
-            $bMinutes = self::indicationToMinutes($b["recipeIndication"]);
+            $bMinutes = self::str_to_minute($b["recipeIndication"]);
         }
         if ($bMinutes === null) {
             $bValue = PHP_INT_MAX;
@@ -259,7 +240,7 @@ class Model_Recommend_Recipe extends \Model
 
 
     // フィルタリング後のレシピをDBに保存する関数
-    public static function upsertRecommendations(string $categoryId, array $recipes): int
+    public static function upsert_recommendation(string $categoryId, array $recipes): int
     {
         if (empty($recipes)) {
             \Log::debug("レシピがありません ID:" . $categoryId);
@@ -308,13 +289,13 @@ class Model_Recommend_Recipe extends \Model
             // 調理時間（分）
             $imin = null;
             if (isset($recipe["recipeIndication"])) {
-                $imin = self::indicationToMinutes($recipe["recipeIndication"]);
+                $imin = self::str_to_minute($recipe["recipeIndication"]);
             }
 
             // 価格ランク
             $rc = null;
             if (isset($recipe["recipeCost"])) {
-                $rc = self::stringToRank((string)$recipe["recipeCost"]);
+                $rc = self::str_to_rank((string)$recipe["recipeCost"]);
             }
 
             $rows[] = "(:cid{$i}, :rid{$i}, :title{$i}, :url{$i}, :img{$i}, :imin{$i}, :rc{$i})";

@@ -197,7 +197,7 @@ class Model_Recipe extends \Model
 
 
 
-    /** 各カテゴリIDの「レシピランキング」を取得する */
+    // 各カテゴリIDの「レシピランキング」を取得する関数
     public static function multi_category_ranking(array $categoryIds): array
     {
         $out = [];
@@ -229,7 +229,7 @@ class Model_Recipe extends \Model
 
 
 
-    //　デフォルトのカテゴリを設定（キーワードが設定されてない時に表示するもの）
+    //　デフォルトのカテゴリを設定（キーワードが設定されてない時に表示する）関数
     public static function default_rankings(): array
     {
         // large: 肉=31, 魚=32, ご飯もの=14

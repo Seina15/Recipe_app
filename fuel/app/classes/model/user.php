@@ -1,6 +1,8 @@
 <?php
 use Fuel\Core\DB;
 
+// ユーザーの管理
+
 class Model_User extends \Model
 {
     public static function find_by_username(string $username): ?array
@@ -12,7 +14,7 @@ class Model_User extends \Model
             LIMIT 1
         ")
 
-        ->bind('username', $username)
+        ->bind("username", $username)
         ->execute()
         ->current();
 
@@ -34,7 +36,7 @@ class Model_User extends \Model
         ";
 
         $result = DB::query($query)
-            ->bind('id', $id)
+            ->bind("id", $id)
             ->execute()
             ->as_array();
 

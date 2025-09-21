@@ -8,27 +8,30 @@ use Fuel\Core\Input;
 class Controller_Api_Recommend_Recipe extends Controller
 {
 
+    // ユーザープロフィールに基づいてフィルタリングを行う関数
     public function action_ranking()
     {
         try {
            
-            $userIdParam = Input::get("userid", null);
+            $userIdParam = Input::get("user_id", null);
 
             if ($userIdParam === null){
-                $userIdParam = Input::get("userId", null);
+                $userIdParam = Input::get("user_id", null);
             }
 
             if ($userIdParam === null) {
-                return $this->bad_request("userId is required");
+                return $this->bad_request("user_id is required");
             }
 
-            $userId     = (int)$userIdParam;
-            $keyword    = trim((string)Input::get("keyword", ""));
+            $userId = (int)$userIdParam;
+            $keyword = trim((string)Input::get("keyword", ""));
             $categoryId = Input::get("categoryId");
-            $limitParam = (int)Input::get("limit", 3);
-            $limit      = max(1, min(10, $limitParam));
+            $limitParam = (int)Input::get("limit", 3); // 取得上限（負荷によってかえる）
+            $limit = max(1, min(10, $limitParam));
 
-            $profileInfo = \Model_Recommend_Recipe::getProfileInfo($userId);
+            // UserIDと一致するユーザープロフィールの取得
+            $profileInfo = \Model_UserProfile::get_profile($userId);
+
 
             if ($categoryId) {
                 $res = \Model_Recipe::category_ranking($categoryId);
@@ -47,11 +50,15 @@ class Controller_Api_Recommend_Recipe extends Controller
                 ]];
 
 
+            // キーワードが指定されている場合にそれに基づいたカテゴリIDを取得
             } elseif ($keyword !== "") {
 
                 $keywordRes = \Model_Recipe::find_categoryId_by_keyword($keyword, $limit);
                 
-                if (!$keywordRes["success"]) return $this->proxy_error($keywordRes);
+                if (!$keywordRes["success"]){
+                    return $this->proxy_error($keywordRes);
+                }
+
                 if (isset($keywordRes["data"])) {
                     $res = $keywordRes["data"];
                 } else {
@@ -60,6 +67,7 @@ class Controller_Api_Recommend_Recipe extends Controller
 
                 $categories = [];
 
+                // カテゴリIDが見つかった場合に、そのカテゴリIDに基づいたランキングを取得
                 if (!empty($res)) {
                     $multiRes = \Model_Recipe::multi_category_ranking($res);
 
@@ -67,6 +75,8 @@ class Controller_Api_Recommend_Recipe extends Controller
                     $categories = $multiRes["data"];
                 }
 
+
+            //　デフォルト表示
             } else {
                 $def = \Model_Recipe::default_rankings();
 
@@ -77,6 +87,7 @@ class Controller_Api_Recommend_Recipe extends Controller
             }
 
 
+
             // フィルタの適用
             foreach ($categories as &$cat) {
                 if (isset($cat["result"])) {
@@ -85,7 +96,7 @@ class Controller_Api_Recommend_Recipe extends Controller
                     $lst = [];
                 }
                 if (is_array($lst) && !empty($lst)) {
-                    $lst = \Model_Recommend_Recipe::FilterRecipeByProfile(
+                    $lst = \Model_Recommend_Recipe::filtered_recipe_by_profile(
                         $lst,
                         $profileInfo["avoid"],
                         $profileInfo["cook_time"],
@@ -99,9 +110,13 @@ class Controller_Api_Recommend_Recipe extends Controller
 
             // フィルタ後のレシピをDBに保存
             foreach ($categories as $cat) {
-                $result = $cat["result"] ?? [];
+                if (isset($cat["result"])) {
+                    $result = $cat["result"];
+                } else {
+                    $result = [];
+                }
                 if (!empty($cat["categoryId"]) && is_array($result) && !empty($result)) {
-                    \Model_Recommend_Recipe::upsertRecommendations(
+                    \Model_Recommend_Recipe::upsert_recommendation(
                         $cat["categoryId"],
                         $result
                     );
@@ -109,7 +124,7 @@ class Controller_Api_Recommend_Recipe extends Controller
             }
 
 
-            // --- レスポンス ---
+        
             return Response::forge(json_encode([
                 "success" => true,
                 "data"    => [
