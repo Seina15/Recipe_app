@@ -13,12 +13,10 @@ class Controller_Api_Recommend_Recipe extends Controller
     {
         try {
            
-            $userIdParam = Input::get("user_id", null);
-
-            if ($userIdParam === null){
+            $userIdParam = Input::get("userId", null);
+            if ($userIdParam === null) {
                 $userIdParam = Input::get("user_id", null);
             }
-
             if ($userIdParam === null) {
                 return $this->bad_request("user_id is required");
             }

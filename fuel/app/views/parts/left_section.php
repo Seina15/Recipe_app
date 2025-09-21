@@ -25,7 +25,7 @@
 
         <label class="font-kosugi">
           <input type="checkbox"
-            data-bind="checked: selected, event:{ change: function(){ $root.onMenuToggle($data); } }">
+           data-bind="checked: selected, event:{ change: function(){ $root.onMenuToggle($data); } }">
           リストに追加
         </label>
         

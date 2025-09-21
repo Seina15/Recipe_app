@@ -22,7 +22,6 @@ class Model_Recommend_Recipe extends \Model
         $rank_max  = self::yen_to_rank($budgetYen);
         $no_budget = ($rank_max === null);
 
-
         if ($noAvoid && $no_time && $no_budget) {
             usort($recipes, function($a, $b) {
                 return self::sort_minute($a, $b);
@@ -32,18 +31,18 @@ class Model_Recommend_Recipe extends \Model
 
         $out = [];
         foreach ($recipes as $r) {
-            if (!$noAvoid && self::contains_avoid($r, $avoidFood)) {
+            if (!$noAvoid && self::contains_avoid($r, $avoid_food)) {
                 continue;
             }
-            if (!$noTime) {
+            if (!$no_time) {
                 $mins = self::str_to_minute($r["recipeIndication"] ?? null);
                 if ($mins === null || $mins > $cook_time){
                     continue;
                 }
             }
-            if (!$noBudget) {
+            if (!$no_budget) {
                 $rr = self::str_to_rank($r["recipeCost"] ?? null);
-                if ($rr === null || $rr > $rankMax){
+                if ($rr === null || $rr > $rank_max){
                     continue;
                 }
             }

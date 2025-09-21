@@ -17,12 +17,12 @@
 
     // キーワード検索に関する関数
     self.FilterSearch = function() {
-      const keyword = prompt("キーワードを入力してください:");
-      if (!keyword || !keyword.trim()) return;
+    const keyword = prompt("キーワードを入力してください:");
+    if (!keyword || !keyword.trim()) return;
 
-      const userId = window.USER_ID || 1;
-      const url = "/index.php/api/recommend_recipe/ranking.json?userId=" + userId +
-                  "&keyword=" + encodeURIComponent(keyword.trim());
+    const userId = window.USER_ID || 1;
+    const url = "/index.php/api/recommend_recipe/ranking.json?userId=" + userId +
+      "&keyword=" + encodeURIComponent(keyword.trim());
 
       self.loading(true);
       fetch(url)
@@ -69,6 +69,25 @@
         .finally(function() {
           self.loading(false);
         });
+    };
+
+
+    // 買い物リスト追加用関数
+    self.onMenuToggle = function (menu) {
+      var checked = false;
+      if (typeof menu.selected === "function") {
+        checked = !!menu.selected();
+      }
+
+      if (checked) {
+        if (Array.isArray(menu.materials) && menu.materials.length > 0) {
+          if (typeof window.addIngredientsToShopping === "function") {
+            window.addIngredientsToShopping(menu.materials);
+          } else {
+            console.warn("addIngredientsToShopping が見つかりません");
+          }
+        }
+      }
     };
 
 
