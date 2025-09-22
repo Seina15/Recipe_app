@@ -24,7 +24,7 @@ class Controller_Api_Login extends Controller_Rest
 
         if (empty($data["username"]) || empty($data["password"])) {
             return $this->response(
-                ["success" => false, "error" => "usernameとpasswordを入力して下さい"],
+                ["success" => false, "error" => "ユーザー名とパスワードを入力して下さい"],
                 400
             );
         }
@@ -35,7 +35,7 @@ class Controller_Api_Login extends Controller_Rest
 
         if (!$user || !password_verify($data["password"], $user["password_hash"])) {
             return $this->response(
-                ["success" => false, "error" => "usernameかpasswordが違います"],
+                ["success" => false, "error" => "ユーザー名かパスワードが違います"],
                 401
             );
         }

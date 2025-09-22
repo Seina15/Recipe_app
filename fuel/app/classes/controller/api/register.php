@@ -51,10 +51,10 @@ class Controller_Api_Register extends Controller_Rest
 
         } catch (\Throwable $e) {
             if (strpos($e->getMessage(), "Duplicate entry") !== false) {
-                return $this->response(["success" => false, "error" => "username already exists"], 400);
+                return $this->response(["success" => false, "error" => "既に存在するユーザー名です"], 400);
             }
 
-            return $this->response(["success" => false, "error" => "internal server error"], 500);
+            return $this->response(["success" => false, "error" => "内部のサーバーエラーが発生しました"], 500);
         }
     }
 }
