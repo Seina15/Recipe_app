@@ -1,7 +1,7 @@
 (function (global) {
 
   // ユーザーIDが無い時はguest
-  const KEY = "shopping:" + (global.USER_ID || "guest");
+  const KEY = "shopping:" + (global.user_id || "guest");
 
   // 各項目（アイテム）に関する関数
   function Item(data) {

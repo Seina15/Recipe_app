@@ -5,6 +5,7 @@ return array(
 
   // テスト用
   // "api/recipe(.json)?"            => "api/recipe/index",
+  "api/login(.json)?" => "api/login/index",
   "api/recommend_recipe/ranking" => "api/recommend_recipe/ranking",
 
 );
