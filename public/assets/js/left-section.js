@@ -20,8 +20,8 @@
     const keyword = prompt("キーワードを入力してください:");
     if (!keyword || !keyword.trim()) return;
 
-    const userId = window.USER_ID || 1;
-    const url = "/index.php/api/recommend_recipe/ranking.json?userId=" + userId +
+    const user_id = window.user_id || 1;
+    const url = "/index.php/api/recommend_recipe/ranking.json?user_id=" + user_id +
       "&keyword=" + encodeURIComponent(keyword.trim());
 
       self.loading(true);
@@ -130,8 +130,8 @@
       self.error("");
       self.loading(true);
 
-      const userId = window.USER_ID || 1;
-      const url = "/index.php/api/recommend_recipe/ranking.json?userId=" + userId;
+  const user_id = window.user_id || 1;
+  const url = "/index.php/api/recommend_recipe/ranking.json?user_id=" + user_id;
 
       return fetch(url)
         .then(res => res.text().then(text => {

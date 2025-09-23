@@ -7,13 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <title>クックリスト</title>
     <script>
-        window.userID = <?= (int)$userID ?? 1 ?>;
+        window.user_id = <?= isset($user_id) ? (int)$user_id : 1 ?>;
     </script>
 
 </head>
 
 <body>
-    <?php echo \View::forge('parts/header', ['username' => $username]); ?>
+    <?php echo \View::forge("parts/header", ["username" => $username]); ?>
 
     <section class="main-sections">
         <!-- Left Section -->
@@ -32,7 +32,7 @@
                 
             </div>
             <hr class="section-div"/>
-            <?php echo View::forge('parts/left_section'); ?>
+            <?php echo View::forge("parts/left_section"); ?>
         </div>
 
         <!--Right Section-->

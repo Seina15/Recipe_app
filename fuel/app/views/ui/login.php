@@ -17,21 +17,21 @@
             <form class="register-form"  data-bind="submit: login">
 
                 <p class="input-label">ユーザー名を英数字で入力してください</p>
-                <input class="input-form" type="text" name="username" placeholder="ユーザー名" data-bind="value: username"><br>
+                <input class="input-form" type="text" name="username" placeholder="ユーザー名" data-bind="value: username" autocomplete="username"><br>
 
                 <p class="input-label">パスワードを入力してください</p>
-                <input class="input-form" type="password" name="password" placeholder="Password" data-bind="value: password"><br>
+                <input class="input-form" type="password" name="password" placeholder="Password" data-bind="value: password" autocomplete="current-password"><br>
 
                 <input class="submit-button" type="submit" value="ログイン">
                 <input class="create-button" type="button" value="新規登録" onclick="location.href='/home/register'">
 
             </form>
         </section>
-        <script src="/knockout-3.2.0.js"></script>
-        <script src="/assets/js/login.js"></script>
+    <script src="/knockout-3.2.0.js"></script>
+    <script src="/assets/js/login.js"></script>
          <script>
             document.addEventListener("DOMContentLoaded", function () {
-                ko.applyBindings(new LoginVM(), document.querySelector('.register-section'));
+                ko.applyBindings(new LoginVM(), document.querySelector(".register-section"));
             });
         </script>
     </body>

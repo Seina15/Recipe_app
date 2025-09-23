@@ -5,7 +5,13 @@
 <header>
     <h3 class="account-name">Hello <?php if (isset($username)) { echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); } ?> !</h3>
     <h1 class="header-title">MyCookList</h1>
-    <a id="profile-icon" href="/home/profile" title="プロフィール" style="margin-left:20px;">
+    <?php
+        $profileUrl = '/home/profile';
+        if (isset($profile_url) && preg_match('/^https?:\/\//', $profile_url)) {
+            $profileUrl = $profile_url;
+        }
+    ?>
+    <a id="profile-icon" href="<?= htmlspecialchars($profileUrl, ENT_QUOTES, 'UTF-8') ?>" title="プロフィール" style="margin-left:20px;">
     <i class="fa-solid fa-user"></i>
     </a>
 </header>

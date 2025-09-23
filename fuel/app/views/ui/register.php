@@ -25,8 +25,8 @@
 
             </form>
         </section>
-        <script src="/knockout-3.2.0.js"></script>
-        <script src="/assets/js/register.js"></script>
+    <script src="/knockout-3.2.0.js"></script>
+    <script src="/assets/js/register.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 ko.applyBindings(new RegisterVM(), document.querySelector(".register-section"));
