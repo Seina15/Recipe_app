@@ -60,6 +60,6 @@
             </section>
         </div>
 
-        <script src="/assets/js/profile_script.js" defer></script>
+    <script src="/assets/js/profile_script.js" defer></script>
     </body>
 </html>

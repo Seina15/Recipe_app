@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <title>クックリスト</title>
     <script>
-        window.userID = <?= (int)$userID ?? 1 ?>;
+        window.userID = <?= isset($userID) ? (int)$userID : 1 ?>;
     </script>
 
 </head>

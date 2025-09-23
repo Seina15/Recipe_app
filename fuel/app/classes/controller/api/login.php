@@ -24,7 +24,7 @@ class Controller_Api_Login extends Controller_Rest
 
         if (empty($data["username"]) || empty($data["password"])) {
             return $this->response(
-                ["success" => false, "error" => "usernameとpasswordを入力して下さい"],
+                ["success" => false, "error" => "ユーザー名とパスワードを入力してください"],
                 400
             );
         }
@@ -35,19 +35,24 @@ class Controller_Api_Login extends Controller_Rest
 
         if (!$user || !password_verify($data["password"], $user["password_hash"])) {
             return $this->response(
-                ["success" => false, "error" => "usernameかpasswordが違います"],
+                ["success" => false, "error" => "認証に失敗しました"],
                 401
             );
         }
 
-        Session::set("userID", (int)$user["id"]);
+        \Session::destroy();
+        \Session::create();
+        \Session::set("user_id", (int)$user["id"]);
+        $secret = bin2hex(random_bytes(32));
+        \Session::set("login_secret", $secret);
 
         return $this->response([
             "success" => true,
             "user" => [
                 "id"       => (int)$user["id"],
                 "username" => $user["username"],
-            ]
+            ],
+            "login_secret" => $secret,
         ], 200);
     }
 }
