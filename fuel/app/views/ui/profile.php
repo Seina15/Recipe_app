@@ -20,6 +20,31 @@
         </header>
 
 
+        <!-- プロフィール名の選択 -->
+        <div class = "profile-selector">
+
+            <!-- 編集・追加したいプロフィールの選択 -->
+            <input type="hidden" id="login_secret" value="<?= e(\Session::get('login_secret') ?: '') ?>">
+            <div class="form-row">
+                <label for="profile_select" class="form-label">プロフィール名</label>
+                <select id="profile_select" class="form-select">
+                    <option value="" disabled selected>選択してください</option>
+                    <option value="__new__">＋ 新規作成…</option>
+                </select>
+            </div>
+
+            <!-- 選択されているプロフィール名表示 -->
+            <div class="form-row">
+                <label for="profile_name" class="form-label">現在選択されているプロフィール</label>
+                <input type="text" id="profile_name" name="profile_name" class="form-input" placeholder="プロフィール名を入力してください" maxlength="100" required value="Default"
+                />
+                <small id="profile_name_count" class="input-count">0 / 100</small>
+            </div>
+
+        </div>
+
+        
+        <!-- プロフィール情報 -->
         <div class = "profile-center-wrapper">
             <section class="section-profile">
                 <form id="profile-form" class="profile-form" autocomplete="on">

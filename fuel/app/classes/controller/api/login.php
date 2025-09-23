@@ -35,7 +35,7 @@ class Controller_Api_Login extends Controller_Rest
 
         if (!$user || !password_verify($data["password"], $user["password_hash"])) {
             return $this->response(
-                ["success" => false, "error" => "認証に失敗しました"],
+                ["success" => false, "error" => "ユーザー名またはパスワードが違います"],
                 401
             );
         }

@@ -24,13 +24,16 @@
                 <button class="icon-btn" id="filter-recommend" data-bind="click: FilterRecommend">
                     <i class="fa-solid fa-filter"></i>
                 </button>
+                
+                <select id="profile-filter-select" class="form-select" style="display:none; margin-left: 16px;">
+                    <option value="" disabled selected>プロフィールを選択</option>
+                </select>
 
                 <button class="icon-btn" id="filter-search" data-bind="click: FilterSearch">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-
-                
+                </button>                
             </div>
+
             <hr class="section-div"/>
             <?php echo View::forge("parts/left_section"); ?>
         </div>
