@@ -3,7 +3,7 @@
   display: none; 
 }
 .error-msg {
-  color: rgb(100, 28, 28);
+  color: #641c1c;
 }
 
 /* リロード */
@@ -22,7 +22,7 @@
 }
 
 .menu-card {
-  border: 3px solid rgb(105, 69, 40);
+  border: 3px solid #694528;
   border-radius: 12px;
   padding: 16px;
   display: flex;

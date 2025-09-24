@@ -9,7 +9,7 @@ header {
 }
 .header-title {
     font-family: 'M PLUS Rounded 1c', sans-serif;
-    color:  rgb(77, 58, 55);
+    color: #4d3a37;
     font-size: 45px;
     font-weight: bold;
     margin: 0;
@@ -27,7 +27,7 @@ header {
 }
 
 .fa-solid {
-    color: rgb(77, 58, 55);
+    color: #4d3a37;
 }
 
 .account-name{
@@ -36,7 +36,7 @@ header {
     top: 50%;
     left: 5%;
     transform: translateY(-50%);
-    color: rgb(99, 56, 56);
+    color: #633838;
     font-size: 30px;
     margin: 0;
 }
