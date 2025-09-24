@@ -103,3 +103,21 @@
 .font-kosugi {
   font-family: 'Kosugi Maru', sans-serif;
 }
+
+.no-recipes-message {
+    color: #ff4500;
+}
+
+.recipe-count-text {
+    font-size: 20px;
+}
+
+.recipe-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.materials-label {
+    margin-left: 15px;
+    margin-top: 15px;
+}

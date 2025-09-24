@@ -9,9 +9,9 @@
     </head>
 
     <body>
-        <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">Create Account</h1>
+        <h1 class="register-title">Create Account</h1>
         <section class="register-section">
-            <div class="error-msg" data-bind="visible: error, text: error" style="color: rgba(181, 47, 47, 1)"></div>           
+            <div class="error-msg" data-bind="visible: error, text: error"></div>           
             <form class="register-form"  data-bind="submit: submit">
 
                 <p class="input-label">ユーザー名を英数字で入力してください</p>

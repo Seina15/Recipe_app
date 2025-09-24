@@ -25,7 +25,7 @@
                     <i class="fa-solid fa-filter"></i>
                 </button>
                 
-                <select id="profile-filter-select" class="form-select" style="display:none; margin-left: 16px;">
+                <select id="profile-filter-select" class="form-select profile-filter-select">
                     <option value="" disabled selected>プロフィールを選択</option>
                 </select>
 
@@ -40,14 +40,14 @@
 
         <!--Right Section-->
         <div class="right-section">
-            <div class="section-header" style="display: flex; align-items: center; gap: 20px;">
+            <div class="section-header right-section-header">
                 <h1>Shopping List</h1>
 
-                <button class="icon-btn" id="clear-btn" data-bind="click: removeItem" style="background-color:#efbfae;">
+                <button class="icon-btn clear-button" id="clear-btn" data-bind="click: removeItem">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
 
-                <button class="icon-btn" id="add-btn" data-bind="click: appendItem" style="background-color:#7fd6a7;">
+                <button class="icon-btn add-button" id="add-btn" data-bind="click: appendItem">
                     <i class="fa-solid fa-circle-plus"></i>
                 </button>
             </div>

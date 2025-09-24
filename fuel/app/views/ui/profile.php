@@ -72,7 +72,7 @@
                 <div class="row">
                     <label for="budget">予算</label>
                     <input class="input-box" id="budget" name="budget" type="number" min="0" step="100" placeholder="1000"/>
-                    <span style="font-size: 20px; margin-left: 8px;">円</span>
+                    <span class="budget-unit">円</span>
                 </div>
 
 

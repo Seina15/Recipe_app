@@ -100,3 +100,24 @@ h1{
   line-height: 1.3;
   font-family: 'Kosugi Maru', sans-serif;
 }
+
+
+
+.profile-filter-select {
+    display: none;
+    margin-left: 16px;
+}
+
+.right-section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.clear-button {
+    background-color: #efbfae;
+}
+
+.add-button {
+    background-color: #7fd6a7;
+}

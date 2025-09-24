@@ -10,9 +10,9 @@
     </head>
 
     <body >
-        <h1 style="text-align: center; margin-top: 10%; font-size: 34px;">Login</h1>
+        <h1 class="login-title">Login</h1>
         <section class="register-section">
-            <div class="error-msg" data-bind="visible: error, text: error" style="color: rgba(181, 47, 47, 1)"></div>
+            <div class="error-msg" data-bind="visible: error, text: error"></div>
 
             <form class="register-form"  data-bind="submit: login">
 

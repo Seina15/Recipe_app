@@ -65,4 +65,13 @@ h1{
     font-family: 'Kosugi Maru', sans-serif;
     font-size: 16px;
     margin-bottom: 16px;
+    color: #b52f2f;
+}
+
+.login-title, .register-title {
+    text-align: center;
+    margin-top: 10%;
+    font-size: 34px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    color: #4d3a37;
 }

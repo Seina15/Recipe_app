@@ -11,7 +11,7 @@
             $profileUrl = $profile_url;
         }
     ?>
-    <a id="profile-icon" href="<?= htmlspecialchars($profileUrl, ENT_QUOTES, 'UTF-8') ?>" title="プロフィール" style="margin-left:20px;">
+    <a id="profile-icon" href="<?= htmlspecialchars($profileUrl, ENT_QUOTES, 'UTF-8') ?>" title="プロフィール" class="profile-icon-link">
     <i class="fa-solid fa-user"></i>
     </a>
 </header>
