@@ -1,13 +1,69 @@
 (function () {
+
+  // プロフィール一覧を取得する関数
+  function loadProfileList() {
+    const select = document.getElementById("profile-filter-select");
+
+    if (!select){
+      return;
+    }
+
+  select.innerHTML = '<option value="" disabled selected>プロフィールを選択</option>';
+  const login_secret = window.LOGIN_SECRET || "";
+
+  if (!login_secret) {
+    return;
+  }
+
+  fetch("/index.php/api/profile/list?login_secret=" + encodeURIComponent(login_secret))
+    .then(res => res.json())
+    .then(json => {
+      if (json.success && Array.isArray(json.profiles)) {
+        const seen = new Set();
+        
+        json.profiles.forEach(p => {
+          let name;
+          
+          if (typeof p.profile_name === "string") {
+            name = p.profile_name.trim();
+          
+          } else {
+            name = "";
+          }
+
+          if (!name || name === "プロフィールを選択してください" || seen.has(name)) return;
+          seen.add(name);
+          const opt = document.createElement("option");
+          opt.value = name;
+          opt.textContent = name;
+          select.appendChild(opt);
+        });
+      }
+    });
+  }
+
+
+
+
   function LeftVM () {
     let self = this;
 
-
-    // おすすめ検索ボタン用（今後実装予定）
+    // レシピ取得用関数
     self.FilterRecommend = function() {
-      alert("おすすめ検索機能(開発中)");
-    };
+      const profileSelect = document.getElementById("profile-filter-select");
+      
+      if (!profileSelect){
+        return;
+      }
 
+      if (profileSelect.style.display === "none" || profileSelect.style.display === "") {
+        loadProfileList();
+        profileSelect.style.display = "inline-block";
+      
+      } else {
+        profileSelect.style.display = "none";
+      }
+    };
 
     self.loading      = ko.observable(false);
     self.error        = ko.observable("");
@@ -130,8 +186,26 @@
       self.error("");
       self.loading(true);
 
-  const user_id = window.user_id || 1;
-  const url = "/index.php/api/recommend_recipe/ranking.json?user_id=" + user_id;
+
+      const user_id = window.user_id || 1;
+      let profile_name = "";
+      let profileSelect = document.getElementById("profile_select");
+      
+      if (profileSelect) {
+        profile_name = profileSelect.value;
+      }
+      
+      let filterSelect = document.getElementById("profile-filter-select");
+      
+      if (filterSelect && filterSelect.style.display !== "none" && filterSelect.value) {
+        profile_name = filterSelect.value;
+      }
+      
+      // プロフィール未選択時（デフォルト表示）
+      let url = "/index.php/api/recommend_recipe/ranking.json?user_id=" + encodeURIComponent(user_id);
+      if (profile_name && profile_name !== "__new__") {
+        url += "&profile_name=" + encodeURIComponent(profile_name);
+      }
 
       return fetch(url)
         .then(res => res.text().then(text => {
