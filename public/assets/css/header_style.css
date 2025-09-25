@@ -1,15 +1,13 @@
+/*ヘッダー*/
 header {
     background-color: #da8660;
     padding: 30px 0;
     position: relative;
 }
-#profile-icon .fa-solid {
-  font-size: 60px;
-  line-height: 1; 
-}
+
 .header-title {
     font-family: 'M PLUS Rounded 1c', sans-serif;
-    color:  rgb(77, 58, 55);
+    color: #4d3a37;
     font-size: 45px;
     font-weight: bold;
     margin: 0;
@@ -26,8 +24,13 @@ header {
     justify-content: center;
 }
 
+#profile-icon .fa-solid {
+  font-size: 60px;
+  line-height: 1; 
+}
+
 .fa-solid {
-    color: rgb(77, 58, 55);
+    color: #4d3a37;
 }
 
 .account-name{
@@ -36,7 +39,11 @@ header {
     top: 50%;
     left: 5%;
     transform: translateY(-50%);
-    color: rgb(99, 56, 56);
+    color: #633838;
     font-size: 30px;
     margin: 0;
+}
+
+.profile-icon-link {
+    margin-left: 20px;
 }

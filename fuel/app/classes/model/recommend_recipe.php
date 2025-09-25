@@ -60,9 +60,13 @@ class Model_Recommend_Recipe extends \Model
     // プロフィールの「Avoid（避けたい食材）」を正規化する関数
     private static function normalized_avoid(?string $s): array
     {
-        if ($s === null) return [];
+        if ($s === null){
+            return [];
+        }
         $s = mb_convert_kana(trim($s), "s", "UTF-8");
-        if ($s === "") return [];
+        if ($s === ""){
+            return [];
+        }
         $s = strtr($s, ["、"=>" ","，"=>" ",","=>" ","／"=>" ","/"=>" ","・"=>" ","|"=>" "]);
         $parts = preg_split("/\s+/", $s, -1, PREG_SPLIT_NO_EMPTY);
         return array_values(array_unique(array_map("trim", $parts)));
@@ -144,7 +148,7 @@ class Model_Recommend_Recipe extends \Model
 
 
 
-    // 調理時間の文字列を分に変換する関数
+    // 調理時間の文字列を分に変換する関数 by ChatGPT
     private static function str_to_minute($indication): ?int
     {
         if ($indication === null) return null;
@@ -163,38 +167,48 @@ class Model_Recommend_Recipe extends \Model
     // 予算（円）を扱いやすいようにランク化する関数　[ユーザーのプロフィール情報]
     private static function yen_to_rank(?int $yen): ?int
         {
-            if ($yen === null) return null;
-
-            $ranges = [
-                100   => 1,
-                300   => 2,
-                500   => 3,
-                1000  => 4,
-                2000  => 5,
-                3000  => 6,
-                5000  => 7,
-            ];
-            foreach ($ranges as $max => $rank) {
-                if ($yen <= $max) {
-                    return $rank;
-                }
+            if ($yen === null){
+                return null;
             }
-            return 8;
+
+        $ranges = [
+            100   => 1,
+            300   => 2,
+            500   => 3,
+            1000  => 4,
+            2000  => 5,
+            3000  => 6,
+            5000  => 7,
+        ];
+        foreach ($ranges as $max => $rank) {
+            if ($yen <= $max) {
+                return $rank;
+            }
         }
+        return 8;
+    }
 
 
-        
-        // レシピの価格（文字列）を扱いやすいようにランク化する関数　[楽天レシピAPIから得た価格]
+
+    // レシピの価格（文字列）を扱いやすいようにランク化する関数　[楽天レシピAPIから得た価格]
     private static function str_to_rank(?string $s): ?int
     {
-        if (!$s) return null;
+        if (!$s){
+            return null;
+        }
+
         $k = str_replace([" ", "　", ","], "", $s);
         static $map = [
             "100円以下"=>1, "300円前後"=>2, "500円前後"=>3, "1000円前後"=>4,
             "2000円前後"=>5, "3000円前後"=>6, "5000円前後"=>7, "10000円以上"=>8,
         ];
-        if (isset($map[$k])) return $map[$k];
-        if (preg_match("/(\d{2,5})円/u", $k, $m)) return self::yen_to_rank((int)$m[1]);
+        if (isset($map[$k])){
+            return $map[$k];
+        }
+        if (preg_match("/(\d{2,5})円/u", $k, $m)){
+            return self::yen_to_rank((int)$m[1]);
+        }
+
         return null;
     }
 
@@ -222,6 +236,7 @@ class Model_Recommend_Recipe extends \Model
         }
         if ($bMinutes === null) {
             $bValue = PHP_INT_MAX;
+        
         } else {
             $bValue = $bMinutes;
         }
@@ -229,8 +244,10 @@ class Model_Recommend_Recipe extends \Model
         // 比較
         if ($aValue < $bValue) {
             return -1;
+        
         } elseif ($aValue > $bValue) {
             return 1;
+        
         } else {
             return 0;
         }
@@ -241,11 +258,6 @@ class Model_Recommend_Recipe extends \Model
     // フィルタリング後のレシピをDBに保存する関数
     public static function upsert_recommendation(string $categoryId, array $recipes): int
     {
-        if (empty($recipes)) {
-            \Log::debug("レシピがありません ID:" . $categoryId);
-            return 0;
-        }
-
         $rows   = [];
         $params = [];
         $i = 0;
@@ -257,6 +269,7 @@ class Model_Recommend_Recipe extends \Model
             if (isset($recipe["recipeId"])) {
                 $recipeId = (string)$recipe["recipeId"];
             }
+            
             if ($recipeId === "") {
                 continue;
             }
@@ -272,15 +285,20 @@ class Model_Recommend_Recipe extends \Model
             if (isset($recipe["recipeUrl"])) {
                 $url = mb_substr((string)$recipe["recipeUrl"], 0, 520);
             }
-            if ($title === "" || $url === "") continue;
+            
+            if ($title === "" || $url === ""){
+                continue;
+            }
 
             // 画像URL
             $img = "";
             if (isset($recipe["mediumImageUrl"])) {
                 $img = mb_substr((string)$recipe["mediumImageUrl"], 0, 520);
+            
             } elseif (isset($recipe["foodImageUrl"])) {
                 $img = mb_substr((string)$recipe["foodImageUrl"], 0, 520);
             }
+            
             if ($img === "") {
                 $img = null;
             }
@@ -310,7 +328,6 @@ class Model_Recommend_Recipe extends \Model
 
        
         if (empty($rows)) {
-            \Log::debug("レシピがありません ID:" . $categoryId);
             return 0;
         }
 
@@ -319,7 +336,7 @@ class Model_Recommend_Recipe extends \Model
         INSERT INTO recommend_recipe
             (category_id, recipe_id, title, recipe_url, image_url, indication_min, recipe_cost)
         VALUES
-            ".implode(",\n        ", $rows)."
+".implode(",\n        ", $rows)."
         ON DUPLICATE KEY UPDATE
             title          = VALUES(title),
             recipe_url     = VALUES(recipe_url),
@@ -328,21 +345,15 @@ class Model_Recommend_Recipe extends \Model
             recipe_cost    = VALUES(recipe_cost),
             fetched_at     = CURRENT_TIMESTAMP
         ";
-
-        try {
-            $res = \DB::query($sql)->parameters($params)->execute();
+        $result = \DB::query($sql)->parameters($params)->execute();
+        $affected = 0;
+        
+        if (is_object($result) && method_exists($result, "count")) {
+            $affected = $result->count();
+        
+        } else {
             $affected = 0;
-            if (is_object($res) && method_exists($res, "count")) {
-                $affected = $res->count();
-            } else {
-                $affected = 0;
-            }
-            return (int)$affected;
-
-        } catch (\Throwable $e) {
-            \Log::error("エラーが発生しました: " . $categoryId . " error:" . $e->getMessage());
-            return 0;
         }
+        return (int)$affected;
     }
-
 }

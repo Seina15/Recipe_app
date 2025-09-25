@@ -31,7 +31,7 @@ class Controller_Api_Register extends Controller_Rest
 
 
             if ($username === "" || $password === "") {
-                return $this->response(["success" => false, "error" => "usernameとpasswordは必須です"], 400);
+                return $this->response(["success" => false, "error" => "ユーザー名とパスワードを入力してください"], 400);
             }
 
 
@@ -54,7 +54,7 @@ class Controller_Api_Register extends Controller_Rest
                 return $this->response(["success" => false, "error" => "既に存在するユーザー名です"], 400);
             }
 
-            return $this->response(["success" => false, "error" => "内部のサーバーエラーが発生しました"], 500);
+        return $this->response(["success" => false, "error" => "内部エラーが発生しました。"], 500);
         }
     }
 }

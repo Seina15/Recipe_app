@@ -3,7 +3,7 @@
   display: none; 
 }
 .error-msg {
-  color: rgb(100, 28, 28);
+  color: #641c1c;
 }
 
 /* リロード */
@@ -22,7 +22,7 @@
 }
 
 .menu-card {
-  border: 3px solid rgb(105, 69, 40);
+  border: 3px solid #694528;
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -102,4 +102,22 @@
 
 .font-kosugi {
   font-family: 'Kosugi Maru', sans-serif;
+}
+
+.no-recipes-message {
+    color: #ff4500;
+}
+
+.recipe-count-text {
+    font-size: 20px;
+}
+
+.recipe-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.materials-label {
+    margin-left: 15px;
+    margin-top: 15px;
 }

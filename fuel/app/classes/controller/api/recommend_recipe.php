@@ -13,34 +13,47 @@ class Controller_Api_Recommend_Recipe extends Controller
     {
         try {
            
-            $userIdParam = Input::get("userId", null);
-            if ($userIdParam === null) {
-                $userIdParam = Input::get("user_id", null);
-            }
+            $userIdParam = Input::get("user_id", null);
+            $profileName = Input::get("profile_name", null);
+            
             if ($userIdParam === null) {
                 return $this->bad_request("user_id is required");
             }
 
             $userId = (int)$userIdParam;
+            if (is_null($profileName)) {
+                $profileName = "";
+            
+            } else {
+                $profileName = trim((string)$profileName);
+            }
+            
             $keyword = trim((string)Input::get("keyword", ""));
             $categoryId = Input::get("categoryId");
             $limitParam = (int)Input::get("limit", 3); // 取得上限（負荷によってかえる）
             $limit = max(1, min(10, $limitParam));
 
-            // UserIDと一致するユーザープロフィールの取得
-            $profileInfo = \Model_UserProfile::get_profile($userId);
+            $profileInfo = [
+                "avoid" => null,
+                "cook_time" => null,
+                "budget" => null
+            ];
+            
+            if ($profileName !== "") {
+                $profileInfo = \Model_UserProfile::get_profile($userId, $profileName);
+            }
 
 
             if ($categoryId) {
-                $res = \Model_Recipe::category_ranking($categoryId);
+                $response = \Model_Recipe::category_ranking($categoryId);
 
-                if (!$res["success"]){
-                    return $this->proxy_error($res);
+                if (!$response["success"]){
+                    return $this->proxy_error($response);
                 }
 
                 $result = [];
-                if (isset($res["data"]["result"])) {
-                    $result = $res["data"]["result"];
+                if (isset($response["data"]["result"])) {
+                    $result = $response["data"]["result"];
                 }
                 $categories = [[
                     "categoryId" => $categoryId,
@@ -121,7 +134,6 @@ class Controller_Api_Recommend_Recipe extends Controller
                 }
             }
 
-
         
             return Response::forge(json_encode([
                 "success" => true,
@@ -142,7 +154,7 @@ class Controller_Api_Recommend_Recipe extends Controller
     }
 
 
-    //不正リクエスト
+    //不正リクエスト（デバッグ用）
     private function bad_request(string $msg)
     {
         return Response::forge(json_encode([
@@ -153,10 +165,11 @@ class Controller_Api_Recommend_Recipe extends Controller
     }
 
 
-    //　プロキシエラー
+    //　プロキシエラー（デバッグ用）
     private function proxy_error(array $res)
     {
         $out = ["success"=>false];
+        
         foreach (["stage","error","http","raw_head"] as $k) {
             if (isset($res[$k])) $out[$k] = $res[$k];
         }
@@ -164,3 +177,5 @@ class Controller_Api_Recommend_Recipe extends Controller
             ->set_header("Content-Type", "application/json");
     }
 }
+
+// 参考元：https://www.php.net/manual/ja/function.set-error-handler.php

@@ -14,7 +14,7 @@ class Model_Recipe extends \Model
             return [
                 "success" => false,
                 "stage"   => "config",
-                "error"   => "RAKUTEN_APP_ID is not set in .env"
+                "error"   => ".envにRAKUTEN_APP_IDが設定されていません"
             ];
         }
 
@@ -60,7 +60,7 @@ class Model_Recipe extends \Model
             return [
                 "success"  => false,
                 "stage"    => "parse",
-                "error"    => "non-json",
+                "error"    => "JSON形式ではありません",
                 "raw_head" => mb_substr($raw, 0, 200)
             ];
         }
@@ -80,7 +80,7 @@ class Model_Recipe extends \Model
             return [
                 "success" => false,
                 "stage"   => "config",
-                "error"   => "RAKUTEN_APP_ID is not set in .env"
+                "error"   => ".envにRAKUTEN_APP_IDが設定されていません"
             ];
         }
 
