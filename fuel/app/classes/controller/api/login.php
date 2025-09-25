@@ -10,11 +10,7 @@ class Controller_Api_Login extends Controller_Rest
     protected $format = "json";
     protected $auth_required = false;
 
-    public function before()
-    {
-        parent::before();
-    }
-
+    // ログイン処理用関数
     public function post_index()
     {
         $data = Input::json();
@@ -30,7 +26,6 @@ class Controller_Api_Login extends Controller_Rest
         }
 
         $username = trim($data["username"]);
-
         $user = \Model_User::find_by_username($username);
 
         if (!$user || !password_verify($data["password"], $user["password_hash"])) {
@@ -56,3 +51,5 @@ class Controller_Api_Login extends Controller_Rest
         ], 200);
     }
 }
+
+// 参考元：https://qiita.com/redrabbit1104/items/a3eaf2bba51fac0b3c51

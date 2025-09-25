@@ -34,9 +34,7 @@
     <!-- 選択されているプロフィール名表示 -->
     <div class="form-row">
       <label for="profile_name" class="form-label">現在選択されているプロフィール</label>
-      <input type="text" id="profile_name" name="profile_name" class="form-input" placeholder="プロフィール名を入力してください" maxlength="100" required value="Default"
-      />
-      <small id="profile_name_count" class="input-count">0 / 100</small>
+  <input type="text" id="profile_name" name="profile_name" class="form-input" placeholder="プロフィール名を入力してください" maxlength="100" required value="Default" />
     </div>
 
   </div>
@@ -55,8 +53,8 @@
 
         <!-- 調理時間 -->
         <div class="row">
-          <label for="time">調理時間の上限</label>
-          <select class="input-box" id="time" name="time">
+          <label for="cook_time">調理時間の上限</label>
+          <select class="input-box" id="cook_time" name="cook_time">
             <option value="">選択してください…</option>
             <option value="15">~ 15 分</option>
             <option value="30">~ 30 分</option>

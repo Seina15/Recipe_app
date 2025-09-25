@@ -33,7 +33,6 @@ class Controller_Api_Recommend_Recipe extends Controller
             $limitParam = (int)Input::get("limit", 3); // 取得上限（負荷によってかえる）
             $limit = max(1, min(10, $limitParam));
 
-            // プロフィール指定があれば取得、なければ空でフィルタなし
             $profileInfo = [
                 "avoid" => null,
                 "cook_time" => null,
@@ -155,7 +154,7 @@ class Controller_Api_Recommend_Recipe extends Controller
     }
 
 
-    //不正リクエスト
+    //不正リクエスト（デバッグ用）
     private function bad_request(string $msg)
     {
         return Response::forge(json_encode([
@@ -166,10 +165,11 @@ class Controller_Api_Recommend_Recipe extends Controller
     }
 
 
-    //　プロキシエラー
+    //　プロキシエラー（デバッグ用）
     private function proxy_error(array $res)
     {
         $out = ["success"=>false];
+        
         foreach (["stage","error","http","raw_head"] as $k) {
             if (isset($res[$k])) $out[$k] = $res[$k];
         }
@@ -177,3 +177,5 @@ class Controller_Api_Recommend_Recipe extends Controller
             ->set_header("Content-Type", "application/json");
     }
 }
+
+// 参考元：https://www.php.net/manual/ja/function.set-error-handler.php

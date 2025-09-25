@@ -60,9 +60,13 @@ class Model_Recommend_Recipe extends \Model
     // プロフィールの「Avoid（避けたい食材）」を正規化する関数
     private static function normalized_avoid(?string $s): array
     {
-        if ($s === null) return [];
+        if ($s === null){
+            return [];
+        }
         $s = mb_convert_kana(trim($s), "s", "UTF-8");
-        if ($s === "") return [];
+        if ($s === ""){
+            return [];
+        }
         $s = strtr($s, ["、"=>" ","，"=>" ",","=>" ","／"=>" ","/"=>" ","・"=>" ","|"=>" "]);
         $parts = preg_split("/\s+/", $s, -1, PREG_SPLIT_NO_EMPTY);
         return array_values(array_unique(array_map("trim", $parts)));
@@ -332,7 +336,7 @@ class Model_Recommend_Recipe extends \Model
         INSERT INTO recommend_recipe
             (category_id, recipe_id, title, recipe_url, image_url, indication_min, recipe_cost)
         VALUES
-            ".implode(",\n        ", $rows)."
+".implode(",\n        ", $rows)."
         ON DUPLICATE KEY UPDATE
             title          = VALUES(title),
             recipe_url     = VALUES(recipe_url),
@@ -341,11 +345,11 @@ class Model_Recommend_Recipe extends \Model
             recipe_cost    = VALUES(recipe_cost),
             fetched_at     = CURRENT_TIMESTAMP
         ";
-        $res = \DB::query($sql)->parameters($params)->execute();
+        $result = \DB::query($sql)->parameters($params)->execute();
         $affected = 0;
         
-        if (is_object($res) && method_exists($res, "count")) {
-            $affected = $res->count();
+        if (is_object($result) && method_exists($result, "count")) {
+            $affected = $result->count();
         
         } else {
             $affected = 0;
