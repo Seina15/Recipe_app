@@ -224,6 +224,7 @@ class Model_UserProfile extends \Model
                  WHERE user_id = :uid
                    AND profile_name = :pname
                  LIMIT 1";
+                 
         DB::query($sql)->parameters([
             ":uid"   => $userId,
             ":pname" => $profileName,

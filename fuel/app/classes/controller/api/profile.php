@@ -64,7 +64,6 @@ class Controller_Api_Profile extends Controller_Rest
             return $this->response(["success" => true, "profiles" => $profiles], 200);
 
         } catch (\Throwable $e) {
-            \Fuel\Core\Log::error($e->getMessage() . " " . $e->getFile() . ":" . $e->getLine());
             return $this->response(["success" => false, "error" => "internal error"], 500);
         }
     }
@@ -82,14 +81,13 @@ class Controller_Api_Profile extends Controller_Rest
 
             $name = \Fuel\Core\Input::get("name", null);
             if ($name === null || trim((string)$name) === "") {
-                return $this->response(["success" => false, "error" => "name required"], 400);
+                return $this->response(["success" => false, "error" => "name-required"], 400);
             }
 
             $profile = \Model_UserProfile::get_profile($loginUserId, (string)$name);
             return $this->response(["success" => true, "profile" => $profile], 200);
 
         } catch (\Throwable $e) {
-            \Fuel\Core\Log::error($e->getMessage() . " " . $e->getFile() . ":" . $e->getLine());
             return $this->response(["success" => false, "error" => "internal error"], 500);
         }
     }
@@ -137,13 +135,13 @@ class Controller_Api_Profile extends Controller_Rest
                 return $this->response(["success" => false, "error" => "duplicate profile_name"], 409);
             }
             
-            return $this->response(["success" => false, "error" => "domain error"], 400);
+            return $this->response(["success" => false, "error" => "domain-error"], 400);
 
         } catch (\InvalidArgumentException $e) {
             return $this->response(["success" => false, "error" => $e->getMessage()], 400);
 
         } catch (\Throwable $e) {
-            return $this->response(["success" => false, "error" => "internal error"], 500);
+            return $this->response(["success" => false, "error" => "internal-error"], 500);
         }
     }
 
@@ -162,7 +160,7 @@ class Controller_Api_Profile extends Controller_Rest
             $deleteToken = Input::post("delete_token");
             $sessionDeleteToken = Session::get("delete_token");
             if (!$deleteToken || !$sessionDeleteToken || !hash_equals($sessionDeleteToken, $deleteToken)) {
-                return $this->response(["success" => false, "error" => "invalid token"], 403);
+                return $this->response(["success" => false, "error" => "invalid-token"], 403);
             }
 
             # 再認証

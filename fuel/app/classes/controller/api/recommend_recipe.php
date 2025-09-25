@@ -23,6 +23,7 @@ class Controller_Api_Recommend_Recipe extends Controller
             $userId = (int)$userIdParam;
             if (is_null($profileName)) {
                 $profileName = "";
+            
             } else {
                 $profileName = trim((string)$profileName);
             }
@@ -38,6 +39,7 @@ class Controller_Api_Recommend_Recipe extends Controller
                 "cook_time" => null,
                 "budget" => null
             ];
+            
             if ($profileName !== "") {
                 $profileInfo = \Model_UserProfile::get_profile($userId, $profileName);
             }
