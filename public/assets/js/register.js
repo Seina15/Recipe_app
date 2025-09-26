@@ -40,6 +40,9 @@ function RegisterVM() {
         data = await res.json();
 
       if (res.ok && data && data.success) {
+        if (data.login_secret) {
+          window.LOGIN_SECRET = data.login_secret;
+        }
         window.location.href = "/home/profile.php"; 
 
       } else {

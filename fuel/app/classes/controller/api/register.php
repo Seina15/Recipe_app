@@ -46,7 +46,15 @@ class Controller_Api_Register extends Controller_Rest
 
 
             \Session::set("user_id", (int)$id);
-            return $this->response(["success" => true, "id" => (int)$id], 201);
+            
+            $secret = bin2hex(random_bytes(32));
+            \Session::set("login_secret", $secret);
+            
+            return $this->response([
+                "success" => true, 
+                "id" => (int)$id,
+                "login_secret" => $secret
+            ], 201);
 
 
         } catch (\Throwable $e) {

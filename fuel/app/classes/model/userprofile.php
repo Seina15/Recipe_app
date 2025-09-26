@@ -35,7 +35,8 @@ class Model_UserProfile extends \Model
             if ($tmp !== "") {
                 $tmp = mb_convert_kana($tmp, "cHC", "UTF-8");
                 $tmp = str_replace("　", " ", $tmp);
-                # by ChatGPT
+
+                
                 $ngSynonyms = [
                     "鶏肉"   => ["鶏肉","チキン","とり肉"],
                     "豚肉"   => ["豚肉","ポーク","ぶた肉"],
